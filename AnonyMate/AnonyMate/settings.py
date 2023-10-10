@@ -82,6 +82,14 @@ DATABASES = {
         "PASSWORD": "anon11$",
         "HOST": "localhost",
         "PORT": "3306",
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_anonymate',
+        'USER': 'anonymateadmin',
+        'PASSWORD': 'anon11$',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
