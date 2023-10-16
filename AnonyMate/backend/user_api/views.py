@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerializer
 from rest_framework import permissions, status
 from .validations import custom_validation, validate_password, validate_username
-
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
+import traceback  # Import the traceback module
 class UserRegister(APIView):
 	permission_classes = (permissions.AllowAny,)
 	def post(self, request):
@@ -21,7 +22,6 @@ class UserRegister(APIView):
 
 class UserLogin(APIView):
 	permission_classes = (permissions.AllowAny,)
-	authentication_classes = (SessionAuthentication,)
 	##
 	def post(self, request):
 		data = request.data
@@ -35,18 +35,34 @@ class UserLogin(APIView):
 
 
 class UserLogout(APIView):
-	permission_classes = (permissions.AllowAny,)
-	authentication_classes = ()
+	authentication_classes = [JWTAuthentication]
+	permission_classes = [permissions.IsAuthenticated]
+
 	def post(self, request):
-		logout(request)
-		return Response(status=status.HTTP_200_OK)
+			refresh_token = request.data.get("refresh_token")
+			if refresh_token:
+				try:
+					token = RefreshToken(refresh_token)
+					token.blacklist()
+					return Response({"message": "Logged out succesfully."}, status=status.HTTP_205_RESET_CONTENT)
+				except Exception:
+					traceback.print_exc()
+					return Response({"error": "Unable to log out. Please check your token."}, status=status.HTTP_400_BAD_REQUEST)
+
+			return Response({"error": "No refresh token provided."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserView(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
-	authentication_classes = (SessionAuthentication,)
 	##
 	def get(self, request):
 		serializer = UserSerializer(request.user)
 		return Response({'user': serializer.data}, status=status.HTTP_200_OK)
 
+class HomeView(APIView):
+	authentication_classes = [JWTAuthentication]
+	permission_classes = (permissions.IsAuthenticated,)
+	def get(self, request):
+		content = {'message': 'Welcome to the JWT ' 
+			 'Authentication page using React Js and Django!'}
+		return Response(content)
