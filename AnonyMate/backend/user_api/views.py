@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserSerializer
 from rest_framework import permissions, status
-from .validations import custom_validation, validate_email, validate_password
+from .validations import custom_validation, validate_password, validate_username
 
 
 class UserRegister(APIView):
@@ -25,7 +25,7 @@ class UserLogin(APIView):
 	##
 	def post(self, request):
 		data = request.data
-		assert validate_email(data)
+		assert validate_username(data)
 		assert validate_password(data)
 		serializer = UserLoginSerializer(data=data)
 		if serializer.is_valid(raise_exception=True):
