@@ -17,7 +17,7 @@ export function Navigation() {
                 </Nav>
                 <Nav>
                     {isAuth ? <Nav.Link href="/logout">Logout</Nav.Link> :
-                              <Nav.Link href="/Login">Login</Nav.Link>}
+                              <Nav.Link href="/login">Login</Nav.Link>}
                 </Nav>
             </Navbar>
         </div>
