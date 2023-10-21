@@ -1,9 +1,17 @@
 import axios from "axios"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [buttonClass, setButtonClass] = useState('btn btn-secondary');
+    useEffect( ()=> {
+        if(username.trim() !== '' && password.trim() !== ''){
+            setButtonClass('btn btn-primary')
+        } else {
+            setButtonClass('btn btn-secondary')
+        }
+    }, [username, password]);
 
     //the submit method
     const submit = async e => {
@@ -56,7 +64,7 @@ export const Login = () => {
                     </div>
                     <div className="d-grid gap-2 mt-3">
                         <button type="submit"
-                            className="btn btn-primary">Submit</button>
+                            className={buttonClass} >Submit</button>
                     </div>
                 </div>
             </form>
