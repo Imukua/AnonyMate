@@ -15,9 +15,9 @@ export const Login = () => {
         };
 
         const {data} = await
-                        axios.post('http://localhost:8080/token/',
+                        axios.post('http://localhost:8000/token/',
                         user, {headers:
-                        {'Content-Type': 'applicationn/json'}},
+                        {'Content-Type': 'application/json'}},
                         {withCredentials: true});
         
         localStorage.clear();
