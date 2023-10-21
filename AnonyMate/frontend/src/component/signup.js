@@ -1,9 +1,11 @@
 import axios from "axios"
 import {useEffect, useState} from "react"
+import { Link } from 'react-router-dom';
 
-export const Login = () => {
+export const Signup = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordRpt, setPasswordRpt] = useState('');
     const [buttonClass, setButtonClass] = useState('btn btn-secondary');
     useEffect( ()=> {
         if(username.trim() !== '' && password.trim() !== ''){
@@ -21,7 +23,6 @@ export const Login = () => {
             password: password
 
         };
-
         const {data} = await
                         axios.post('http://localhost:8000/token/',
                         user, {headers:
@@ -42,7 +43,11 @@ export const Login = () => {
             <form className="Auth-form" onSubmit={submit}>
                 <div className="Auth-form-content">
                     <object data={`${process.env.PUBLIC_URL}/ghost.svg`} className="ghost"> </object>
-                    <h3 className="Auth-form-title">Sign In</h3>
+                    <div className="login-header">
+                        <h3 className="Authformtitle">Log in to your account</h3>
+                        <h6 className="Authformtext">Already have an account ? <Link className='header-link' to="/login">Login</Link> </h6>
+                        
+                    </div>
                     <div className="form-group mt-3">
                         <label>Username</label>
                         <input className="form-control mt-1"
@@ -63,9 +68,19 @@ export const Login = () => {
                         required
                         onChange={e => setPassword(e.target.value)}/>
                     </div>
+                    <div className="form-group mt-3">
+                        <label>Password</label>
+                        <input className="form-control mt-1"
+                        placeholder="repeat password"
+                        name="password"
+                        type="password"
+                        value={passwordRpt}
+                        required
+                        onChange={e => setPasswordRpt(e.target.value)}/>
+                    </div>
                     <div className="d-grid gap-2 mt-3">
                         <button type="submit"
-                            className={buttonClass} >Submit</button>
+                            className={buttonClass} disabled={username.trim() === '' || password !== passwordRpt} >Submit</button>
                     </div>
                 </div>
             </form>
