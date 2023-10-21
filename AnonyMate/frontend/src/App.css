@@ -1,4 +1,10 @@
-html, body {margin: 0; height: 100%; overflow: hidden}
+html, body {
+  margin: 0;
+  height:
+  100%;
+  overflow: hidden;
+  background-color: #393e46;
+}
 .App {
   text-align: center;
 }
