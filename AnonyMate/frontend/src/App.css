@@ -137,6 +137,26 @@ body {
   width: 90px;
   height: 90px;
 }
+.login-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.Authformtitle{
+  color: #229fff;
+  margin-bottom: 0cm;
+
+}
+
+.Authformtext {
+  position: relative;
+  color: antiquewhite;
+  font-size: small;
+  
+}
 
 /*Buttons below*/
 

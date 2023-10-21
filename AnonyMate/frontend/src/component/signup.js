@@ -1,6 +1,5 @@
 import axios from "axios"
 import {useEffect, useState} from "react"
-import { Link } from 'react-router-dom';
 
 export const Login = () => {
     const [username, setUsername] = useState('');
@@ -43,11 +42,7 @@ export const Login = () => {
             <form className="Auth-form" onSubmit={submit}>
                 <div className="Auth-form-content">
                     <object data={`${process.env.PUBLIC_URL}/ghost.svg`} className="ghost"> </object>
-                    <div className="login-header">
-                        <h3 className="Authformtitle">Sign In to your account</h3>
-                        <h6 className="Authformtext">dont have an account yet ? <Link className='header-link' to="/signup">Signup</Link> </h6>
-                        
-                    </div>
+                    <h3 className="Auth-form-title">Sign In</h3>
                     <div className="form-group mt-3">
                         <label>Username</label>
                         <input className="form-control mt-1"
