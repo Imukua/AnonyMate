@@ -38,9 +38,10 @@ export const Login = () => {
     }
 
     return(
-        <div className="Auth-form-container">
+        <div className="Auth-form-container" >
             <form className="Auth-form" onSubmit={submit}>
                 <div className="Auth-form-content">
+                    <object data={`${process.env.PUBLIC_URL}/ghost.svg`} className="ghost"> </object>
                     <h3 className="Auth-form-title">Sign In</h3>
                     <div className="form-group mt-3">
                         <label>Username</label>

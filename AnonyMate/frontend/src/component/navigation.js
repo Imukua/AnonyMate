@@ -13,14 +13,21 @@ export function Navigation() {
     return (
         <Navbar className='mynav'>
         <Container>
-            <Navbar.Brand href="/"><h2 className="navlinkss" id='logolink'>AnonyMate</h2></Navbar.Brand>
+        {isAuth ? null:<section class="wrapper" >
+        <div class="top" >AnonyMate</div>
+        <div class="bottom facncy" aria-hidden="true">Anonymate</div>
+        </section>}
             <Nav className="me-auto">
                     {isAuth ? <Nav.Link href="/"><h2 className="navlinkss">Home</h2></Nav.Link>: null}
+                    
                 </Nav>
-                <Nav>
-                    {isAuth ? <Nav.Link href="/logout"><h2 className="navlinkss">Logout</h2></Nav.Link> :
-                              <Nav.Link href="/login"><h2 className="navlinkss">Login</h2></Nav.Link>}
+                <Nav className='far-end'>
+                    <Nav.Link href="/about"><h2 className="navlinkss btn btn-secondary">About</h2></Nav.Link>
+                    <Nav.Link href="/contact"><h2 className="navlinkss btn btn-secondary">Contact</h2></Nav.Link>
+                    {isAuth ? <Nav.Link href="/logout"><h2 className="navlinkss btn btn-primary">Logout</h2></Nav.Link> :
+                              <Nav.Link href="/login"><h2 className="navlinkss btn btn-primary">Login</h2></Nav.Link>}
             </Nav>
+                
         </Container>
       </Navbar>
       
