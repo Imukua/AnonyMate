@@ -9,7 +9,6 @@ export const Home = () => {
       window.location.href = "/login";
     } else {
       const accessToken = localStorage.getItem("access_token");
-      console.log(accessToken);
       (async () => {
         try {
           const { data } = await axios.get("http://localhost:8000/home/", {
