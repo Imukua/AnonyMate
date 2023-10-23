@@ -27,6 +27,8 @@ class AppUserManager(BaseUserManager):
 class AppUser(AbstractBaseUser, PermissionsMixin):
 	user_id = models.AutoField(primary_key=True)
 	username = models.CharField(max_length=50, unique=True)
+	likes = models.JSONField(null=True, blank=True)
+	mood = models.CharField(max_length=30, blank=True) 
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = []
 	objects = AppUserManager()
