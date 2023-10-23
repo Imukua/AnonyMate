@@ -21,22 +21,27 @@ export const Signup = () => {
         const user = {
             username: username,
             password: password
-
         };
-        const {data} = await
-                        axios.post('http://localhost:8000/token/',
-                        user, {headers:
-                        {'Content-Type': 'application/json'}},
-                        {withCredentials: true});
-        
-        localStorage.clear();
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
-        window.location.href = '/';
-
-
-    }
+        try {
+            const response = await axios.post('http://localhost:8000/register/', user);
+            if (response.status === 201) {
+                const { data } = await axios.post('http://localhost:8000/token/', user, {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                });
+                localStorage.clear();
+                localStorage.setItem('access_token', data.access);
+                localStorage.setItem('refresh_token', data.refresh);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
+                window.location.href = '/';
+            }
+            else {
+                console.log('Resource Not found')
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return(
         <div className="Auth-form-container" >

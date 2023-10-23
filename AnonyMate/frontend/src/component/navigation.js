@@ -13,9 +13,9 @@ export function Navigation() {
     return (
         <Navbar className='mynav'>
         <Container>
-        {isAuth ? null:<section class="wrapper" >
-        <div class="top" >AnonyMate</div>
-        <div class="bottom facncy" aria-hidden="true">Anonymate</div>
+        {isAuth ? null:<section className="wrapper" >
+        <div className="top" >AnonyMate</div>
+        <div className="bottom facncy" aria-hidden="true">Anonymate</div>
         </section>}
             <Nav className="me-auto">
                     {isAuth ? <Nav.Link href="/"><h2 className="navlinkss">Home</h2></Nav.Link>: null}

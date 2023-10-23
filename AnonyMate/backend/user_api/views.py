@@ -53,11 +53,51 @@ class UserLogout(APIView):
 
 
 class UserView(APIView):
+	authentication_classes = [JWTAuthentication]
 	permission_classes = (permissions.IsAuthenticated,)
+	accepted_fields = ['username', 'gender', 'mood', 'likes']
 	##
-	def get(self, request):
-		serializer = UserSerializer(request.user)
-		return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+	def get(self, request, user_id):
+		if request.user.id == user_id:
+			try:
+				user = get_user_model().objects.get(user_id=user_id)
+				serializer = UserSerializer(user)
+				return Response({'user': serializer.data}, status=status.HTTP_200_OK)
+			except get_user_model().DoesNotExist:
+				return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+		else:
+			return Response({'error': 'Unauthorized.'}, status=status.HTTP_401_UNAUTHORIZED)
+	def put(self, request, user_id):
+		if request.user.id != user_id:
+			return Response({'error': 'Unauthorized.'}, status=status.HTTP_401_UNAUTHORIZED)
+		user = get_user_model().objects.get(user_id=user_id)
+
+		fields_to_update = {}
+
+		# Iterate through request data and update accepted fields
+		for field in self.accepted_fields:
+			if field in request.data:
+				# Special handling for the 'likes' field
+				if field == 'likes':
+					# Assuming 'likes' in request data is a list or dictionary
+					new_likes = request.data.get('likes')
+
+					# Merge new likes with existing ones (if any)
+					existing_likes = user.likes
+					if isinstance(existing_likes, list):
+						# Assuming 'likes' is a list
+						user.likes = existing_likes + new_likes
+					elif isinstance(existing_likes, dict):
+						# Assuming 'likes' is a dictionary
+						existing_likes.update(new_likes)
+						user.likes = existing_likes
+				else:
+					setattr(user, field, request.data[field])
+				fields_to_update[field] = request.data[field]
+
+		user.save()
+		serializer = UserSerializer(user)
+		return Response({'user': serializer.data, 'message': 'User profile updated successfully.', 'updated_fields': fields_to_update}, status=status.HTTP_200_OK)
 
 class HomeView(APIView):
 	authentication_classes = [JWTAuthentication]
