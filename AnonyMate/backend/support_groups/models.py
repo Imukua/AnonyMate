@@ -6,7 +6,6 @@ class SupportGroups(models.Model):
     group_id = models.AutoField(primary_key=True)
     group_name = models.CharField(max_length=100, unique=True)
     group_description = models.TextField()
-    moderator = models.ManyToManyField(AppUser, related_name='moderators')
     members = models.ManyToManyField(AppUser, related_name='support_groups', blank=True)
 
 class UserSupportGroup(models.Model):
