@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'user_api.apps.UserApiConfig',
+    'django_rename_app',
 ]
 
 MIDDLEWARE = [
