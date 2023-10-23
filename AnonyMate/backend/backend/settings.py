@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'user_api.apps.UserApiConfig',
     'django_rename_app',
+    'support_groups.apps.SupportGroupsConfig',
 ]
 
 MIDDLEWARE = [
