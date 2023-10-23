@@ -13,7 +13,7 @@ export const Signup = () => {
         } else {
             setButtonClass('btn btn-secondary')
         }
-    }, [username, password]);
+    }, [username, password]);   
 
     //the submit method
     const submit = async e => {
@@ -44,7 +44,7 @@ export const Signup = () => {
                 <div className="Auth-form-content">
                     <object data={`${process.env.PUBLIC_URL}/ghost.svg`} className="ghost"> </object>
                     <div className="login-header">
-                        <h3 className="Authformtitle">Log in to your account</h3>
+                        <h3 className="Authformtitle">Sign up for an account</h3>
                         <h6 className="Authformtext">Already have an account ? <Link className='header-link' to="/login">Login</Link> </h6>
                         
                     </div>
