@@ -4,9 +4,9 @@ from rest_framework.response import Response
 from .serializers import SupportGroupSerializer, UserSupportGroupSerializer
 from .models import SupportGroups, UserSupportGroup
 from rest_framework import permissions, status
-from .validations import validate_group_description, validate_group_name
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+from .validations import validate_description, validate_name
 
 class SupportGroupCreate(APIView):
     queryset = SupportGroups.objects.all()
@@ -17,7 +17,7 @@ class SupportGroupCreate(APIView):
 
     def post(self, request):
         clean_data = request.data
-        if not validate_group_name or not validate_group_description:
+        if not validate_name or not validate_description:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = SupportGroupSerializer(data=clean_data)
         if serializer.is_valid(raise_exception=True):
@@ -50,13 +50,37 @@ class GroupMembersListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
-    def get(self, request):
-        queryset = UserSupportGroup.objects.all()
+    def get(self, request, group_id=None):
+        user_id = request.query_params.get('user_id')
+        group_id = request.query_params.get('group_id')
+        if group_id:
+            queryset = UserSupportGroup.objects.filter(support_group__group_id=group_id)
+        elif user_id:
+            user_id=request.user.id
+            queryset = UserSupportGroup.objects.filter(user__user_id=user_id)
+        else:
+            queryset = UserSupportGroup.objects.all()
+  
         serializer = UserSupportGroupSerializer(queryset, many=True)
         if serializer.is_valid:
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({"detail": "Support groups not found."}, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({"detail": "Support groups not found."}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, group_id):
+        user_id = request.user.id
+        is_moderator = UserSupportGroup.objects.filter(user=user_id, support_group__group_id=group_id, is_moderator=True).exists()
+        if is_moderator:
+            if validate_description(request.data):
+                group = SupportGroups.objects.get(group_id=group_id)
+                group.group_description = request.data['group_description']
+                group.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 
 class SupportGroupbyIdView(APIView):
     serializer_class = SupportGroupSerializer
