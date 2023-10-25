@@ -1,0 +1,14 @@
+git clone https://{token}@github.com/username/reponame
+
+
+
+git add .
+git commit -m ""
+git push
+
+git branch branchname
+git checkout branchname
+
+git merge BRANCHNAME
+
+git pull.
