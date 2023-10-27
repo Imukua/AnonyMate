@@ -1,6 +1,8 @@
 import axios from "axios"
 import {useEffect, useState} from "react"
 import { Link } from 'react-router-dom';
+import ParticlesBg from "particles-bg"
+
 
 export const Signup = () => {
     const [username, setUsername] = useState('');
@@ -44,6 +46,7 @@ export const Signup = () => {
     };
 
     return(
+        <>
         <div className="Auth-form-container" >
             <form className="Auth-form" onSubmit={submit}>
                 <div className="Auth-form-content">
@@ -90,5 +93,7 @@ export const Signup = () => {
                 </div>
             </form>
         </div>
+        <ParticlesBg type="random" bg={true}/>
+        </>
     )
 }
