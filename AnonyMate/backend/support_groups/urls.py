@@ -8,5 +8,7 @@ urlpatterns = [
     path('<int:group_id>/', views.SupportGroupbyIdView.as_view(), name='support-group-by-id'),
     path('<int:group_id>/members/', views.GroupMembersListView.as_view(), name='support-group-members-by-id'),
     path('<int:group_id>/update/', views.GroupMembersListView.as_view(), name='support-group-members-by-id'),
+    path('<int:group_id>/join/', views.SupportGroupJoinView.as_view(), name='support-group-members-by-id'),
+    path('<int:group_id>/leave/', views.SupportGroupLeaveView.as_view(), name='support-group-members-by-id'),
     path('', views.GroupMembersListView.as_view(), name='support-group-members-by-id'),
 ]
