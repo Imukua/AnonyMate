@@ -33,6 +33,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 	REQUIRED_FIELDS = []
 	objects = AppUserManager()
 	is_staff = models.BooleanField(default=False)
+	
 
 	@property
 	def id(self):
