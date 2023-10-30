@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from .models import SupportGroups, UserSupportGroup
+from .models import SupportGroups, Membership
 from user_api.serializers import UserSerializer
+from user_api.models import AppUser
 class SupportGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportGroups
@@ -20,8 +21,12 @@ class SupportGroupSerializer(serializers.ModelSerializer):
         group.save()
         return group
 
-class UserSupportGroupSerializer(serializers.ModelSerializer):
+class UserMembershipSerializer(serializers.ModelSerializer):
     user = UserSerializer() 
     class Meta:
-        model = UserSupportGroup
+        model = Membership
+        fields = '__all__'
+class MembershipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Membership
         fields = '__all__'
