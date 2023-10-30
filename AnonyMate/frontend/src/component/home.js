@@ -26,6 +26,8 @@ export const Home = () => {
     },
   ];
   const [message, setMessage] = useState("");
+  const [quotes, setQuotes] = useState([]);
+
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
       window.location.href = "/login";
@@ -46,8 +48,31 @@ export const Home = () => {
       })();
     }
   }, []);
-
- 
+  useEffect(() => {
+    // Check if quotes are in localStorage
+    const storedQuotes = localStorage.getItem("quotes");
+    if (storedQuotes) {
+      setQuotes(storedQuotes);
+    } else {
+      // Fetch quotes and store them in localStorage
+      axios
+        .get("https://api.api-ninjas.com/v1/quotes?category=happiness", {
+          headers: {
+            "Content-Type": "application/json",
+            'X-Api-Key': 'PclwjNbke9yFN7BcMuP+Nw==8g7Erlot7SlYNzMk',
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          const fetchedQuotes = response.data.quote;
+          setQuotes(fetchedQuotes);
+          localStorage.setItem("quotes", JSON.stringify(fetchedQuotes));
+        })
+        .catch((error) => {
+          console.log("Error fetching quotes:", error);
+        });
+    }
+  }, []);
   return (
     <div className="homepage-ctnr">
       <div className="Overview-ctnr">
@@ -202,7 +227,7 @@ export const Home = () => {
         <div className="inner-ctnr-top">
           <div className="quotes">
             <p>
-              quotesss
+              {quotes}
             </p>
           </div>
         </div>
