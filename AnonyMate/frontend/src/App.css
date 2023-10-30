@@ -1,10 +1,10 @@
 html,
 body {
   margin: 0;
-  height: 100%;
-  overflow: hidden;
-  /* background-color: #393e46;*/
+  height: 100%;  /* background-color: #393e46;*/
 }
+
+
 .App {
   text-align: center;
 }
@@ -255,6 +255,7 @@ label {
   height: 100%;
   border-radius: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding-bottom: 30px;
 }
 .inner-ctnr-bottom {
   width: 100%;
@@ -282,7 +283,6 @@ label {
   padding-left: 10%;
   padding-right: 10%;
   margin-top: 0px;
-  padding-top: 5px;
   flex: 1 1 auto;
   justify-content: space-between;
   gap: 8px;
@@ -330,20 +330,21 @@ label {
 .inner-cntr2 {
   display: flex;
   padding-left: 10%;
+  padding-top: 1px;
   height: 100%;
   width: 100%;
 }
 
 .icon-ctnr {
   display: flex;
-  padding-top: 10%;
+  padding-top: 7%;
   padding-bottom: 10%;
   padding-left: 10%;
 }
 .streak-ctnr {
   display: flex;
   flex-direction: column;
-  padding-top: 11%;
+  padding-top: 7%;
   padding-left: 5%;
   padding-right: 10%;
 }
@@ -379,6 +380,40 @@ label {
 .pix {
   width:200px;
 }
+
+.caro-div {
+  overflow: hidden;
+  margin-top: 3px;
+  width:70%;
+  height: 100%;
+ 
+}
+/* FILEPATH: /home/simp/SchoolWork/AnonyMate/AnonyMate/frontend/src/App.css */
+/* BEGIN: ed8c6549bwf9 */
+
+.imgcdiv {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  width: 50px;
+  height: 100%;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 5px;
+  justify-content: center;
+}
+.quotes {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* add this line */
+}
+
+/* END: ed8c6549bwf9 */
+
+
 
 /* CSS */
 .button-10 {
@@ -418,6 +453,8 @@ label {
   border-radius: 12px;
   text-transform: none;
   padding: 7px 12px;
+  margin-top: 10px;
+  height: 20px;
   
 }
 .button-10-b:focus {
@@ -512,3 +549,8 @@ label {
 
 
 /*Buttons below*/
+
+
+
+
+

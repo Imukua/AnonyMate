@@ -2,10 +2,29 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import AddTaskRoundedIcon from "@mui/icons-material/AddTaskRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import { Carousel, ScrollingCarousel } from "@trendyol-js/react-carousel";
 // Define the Login function.
+
 export const Home = () => {
+  const slideData = [
+    {
+      text: "skyline",
+      img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAEBQcDAgH/xAAvEAACAQIEAwUIAwAAAAAAAAABAgMEEQAFEiETMVFBYXGBkRQjMoKxssLwBiJC/8QAFgEBAQEAAAAAAAAAAAAAAAAAAwQC/8QAIREAAQQBAwUAAAAAAAAAAAAAAQACAxEEEjHwBSFBYYH/2gAMAwEAAhEDEQA/AFYz3KA0UbVjI8jBNSxEqvifHp64fSURSxNSQOw8K3nzxNeLC2oVWX00hIKkoNPnZSADftAxSsnzWlzaiHBbdAFbWu6+O+KHYWrYArAmr0s56CopYjOt5Y99TD4k77dMc+0RG2mzX5Ww5pEWJSEqKhiu22kW9RgWfK6KpqONA1TTSsukknWhNulhbpsbd2JZuly1qaEzMsbFSmanqYT76ETqP9xHS4HhyPpgzJp3o5hPHUMkc4ZCrf1J+K3zCw27LnffDhoL722xjPlUVQtm1qNWqysQL9bcjhhkPBF+CiMYoo6k/mBWniiMBZ4xpNpgS3PckW/RgOXO5plVlnqujcSoCHbbkFP1GMhlNTGvuK1UW/L2WI/jjw5ZVstjmcy90KLF9gGKDlM71fPqMRlf/9k=",
+    },
+    {
+      text: "ianmukua",
+      img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAYAAADAQEAAAAAAAAAAAAAAAAEBQYHAv/EACwQAAEDAwEFCAMBAAAAAAAAAAECAwQABRESBiExQXETIiNRYZGhsRRSwQf/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A2VaCsUG/AyCpakpSOJJwKVzNvbLGcCEOaxzUTgDpxzUhdtqjc5ZEO4PvKUT2TaYoV2Y8gAoZ64JqyJar5DlrYJbdu0BC/wBVyUA/dBybaiU2XIrzT6cZy0sK+qxiVZp866POsrdkvBRW4oN6dIHHmcdKfWa2SC2gvSWoTqDlK0vHI6ADI96uGpWfcIxltIQmdhWB4jaUg53b+4Dkdafx7ibcw0xFeVokK0vAtJBCfQjfR7+wDBV4E+U0nOcFWr7rhH+fpAwq5PHcRkoSdx9Du+KCZRdl/kx57bim21btGvuhJz3ccgBjkcnJzniSm5F86ITMh5fmngf581UW3YW1wUpS6pcjScjtDu9qesx4sROlhpCQPIUH/9k=",
+    },
+    {
+      text: "desszor",
+      img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAYAAEAAwEAAAAAAAAAAAAAAAAGAwQHBf/EADAQAAIBAwIEBQALAQAAAAAAAAECAwQFEQAhBhITMRQiQVFhFSMyM0JEcZGhwdEH/8QAFgEBAQEAAAAAAAAAAAAAAAAAAQIA/8QAGxEAAgMAAwAAAAAAAAAAAAAAAAECEUEDEhP/2gAMAwEAAhEDEQA/ANQt6RNU1xVdhMoGO33aH+9RXF+ndqWUo5iWlnyApKklosZAB27742Gh9tqfpS0LPLItPJ0o35ESIiM8qqcc+cAAex+CdR1dTXMI6mC6VPXkikmTp0S5yWww5S/qFGBn0/DqHyPC1BaduE2yO2LT0ppopPpJX6YAjblNT5crsfsn+NXaykJ4ioZgBhaKpXOd93g/zQl2miqqrxslS0KQRMB4bBk88bEK2dmG+2TsD231yOIuJpKbwdRSTVFPP4aKR2EhPkLHC7nYZjGRv7HT6VguKwpcNSUFZbZ6y/VCUlppWSEsFDyluXChVAyNiNwD6+2ldpb/AJzdZ6e1Ut0uck0mRCplniztnl5gqj07E7n50YquGLZV03hqaaWjgZldo4wCGdQwDEnfOGPrjtqnQ8FrbbhTVtDdwJaeVZU6lPzeZSCOzDTYdGMrlYOFrPAtc5utOVqIUhU3Au0khcAEoSRyjuc52B21mt1eOS+wz0a1G8jo/M6yGRRy/WHChRk74xjykke6Op4cFZM8lwuhfM8k6JBF0wrvyE4yzbAopAGMfptqektlrtamSlVpKo/mJn5mA+PY/P7b76E6VXZlBn//2Q==",
+    },
+    {
+      text: "liberty",
+      img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAYAAADAQEAAAAAAAAAAAAAAAADBAYFAv/EAC0QAAEDAgQEAwkAAAAAAAAAAAECAwQFEQASIWEGMUFREyJxFDJSYpGhwdHh/8QAGAEAAwEBAAAAAAAAAAAAAAAAAQMEAgD/xAAeEQACAQMFAAAAAAAAAAAAAAABAgAREyEDEjJBQv/aAAwDAQACEQMRAD8AsFsbYCuPtjYWztgK2tsa3QFJjqjbYmalw6uRJelPqCE2JUpOtx6bdsWrxabF3XEIHzKAwoZUFRIEyMT28VJ/OOajDMC1U4hKpxNDp8hEd91tLy+aQq+X1On72wm/WWZ1Of8AZaszDlJzJSHmiqx6EEWHbodxfEsvhSqJflyC5HdcdW6prxHFEgLI5nKToAPXlvgNN4PqzGjwp0keGEgLdeTbe4Av/TicWzyNZS13yI/Hg0hyOl6o1JIqK02eU2C4OeoClam/fp0tjmVTqDQKcHXZzknx0qUGn0hXlJ943vl25ddOeAq4RqJOZMano6+SU9f7g4TXwxXpMtblREZacqbFLxUUlObLpkHxK+uGnVToxC6D1ys//9k=",
+    },
+  ];
   const [message, setMessage] = useState("");
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -27,6 +46,8 @@ export const Home = () => {
       })();
     }
   }, []);
+
+ 
   return (
     <div className="homepage-ctnr">
       <div className="Overview-ctnr">
@@ -37,9 +58,9 @@ export const Home = () => {
           </button>
         </div>
       </div>
-      <div class="homepage-section">
+      <div className="homepage-section">
         <div className="inner-ctnr-top">
-          <div class="inner-cntr1">
+          <div className="inner-cntr1">
             <div className="icon-ctnr">
               <object
                 data={`${process.env.PUBLIC_URL}/fire.png`}
@@ -53,7 +74,7 @@ export const Home = () => {
               <h2 className="ctnr-txt">24</h2>
             </div>
           </div>
-          <div class="inner-cntr2">
+          <div className="inner-cntr2">
             <button className="button-10-b">
               <span>see login history</span>
               <ArrowForwardRoundedIcon></ArrowForwardRoundedIcon>
@@ -61,7 +82,7 @@ export const Home = () => {
           </div>
         </div>
         <div className="inner-ctnr-top">
-          <div class="inner-cntr1">
+          <div className="inner-cntr1">
             <div className="icon-ctnr">
               <object
                 data={`${process.env.PUBLIC_URL}/friends-pix.png`}
@@ -70,12 +91,41 @@ export const Home = () => {
                 {" "}
               </object>
             </div>
-            <div className="streak-ctnr">
+            <div className="streak-ctnr caro">
               <h3 className="ctnr-heading">My Friends</h3>
-              <h2 className="ctnr-txt">friends hapa</h2>
+              <div className="caro-div">
+                <ScrollingCarousel>
+                  {slideData.map((d, i) => (
+                    <div
+                      className="imgcdiv"
+                      key={i}
+                      onClick={() => console.log("CLICK")}
+                    >
+                      <img
+                        alt="ian"
+                        style={{
+                          borderRadius: "50%",
+                          height: "50px",
+                          marginBottom: "3px",
+                          marginLeft: "3px",
+                          marginRight: "8px",
+                          marginTop: "3px",
+                          width: "50px",
+                          border: "2px solid #229fff",
+                          boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
+                        }}
+                        src={d.img}
+                      />
+                      <span style={{ fontSize: "10px", textAlign: "center" }}>
+                        {d.text}
+                      </span>
+                    </div>
+                  ))}
+                </ScrollingCarousel>
+              </div>
             </div>
           </div>
-          <div class="inner-cntr2">
+          <div className="inner-cntr2">
             <button className="button-10-b">
               <span>find more friends</span>
               <ArrowForwardRoundedIcon></ArrowForwardRoundedIcon>
@@ -83,7 +133,7 @@ export const Home = () => {
           </div>
         </div>
         <div className="inner-ctnr-top">
-          <div class="inner-cntr1">
+          <div className="inner-cntr1">
             <div className="icon-ctnr">
               <object
                 data={`${process.env.PUBLIC_URL}/grouppix.png`}
@@ -94,10 +144,38 @@ export const Home = () => {
             </div>
             <div className="streak-ctnr">
               <h3 className="ctnr-heading">My Groups</h3>
-              <h2 className="ctnr-txt">24</h2>
+              <div class="caro-div">
+                <ScrollingCarousel>
+                  {slideData.map((d, i) => (
+                    <div
+                      className="imgcdiv"
+                      key={i}
+                    >
+                      <img
+                        alt="ian"
+                        style={{
+                          borderRadius: "50%",
+                          height: "50px",
+                          marginBottom: "3px",
+                          marginLeft: "3px",
+                          marginRight: "8px",
+                          marginTop: "3px",
+                          width: "50px",
+                          border: "2px solid orange",
+                          boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
+                        }}
+                        src={d.img}
+                      />
+                      <span style={{ fontSize: "10px", textAlign: "center" }}>
+                        {d.text}
+                      </span>
+                    </div>
+                  ))}
+                </ScrollingCarousel>
+              </div>{" "}
             </div>
           </div>
-          <div class="inner-cntr2">
+          <div className="inner-cntr2">
             <button className="button-10-b">
               <span>Browse all groups</span>
               <ArrowForwardRoundedIcon></ArrowForwardRoundedIcon>
@@ -105,25 +183,29 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div class="homepage-section2">
+      <div className="homepage-section2">
         <div className="inner-ctnr-bottom">
-        <div class="inner-ctnr-bottom1">
-          <div className="pix">
-            <object
-              data={`${process.env.PUBLIC_URL}/pix.png`}
-              className="pix-home"
-            >
-              {" "}
-            </object>
-          </div>
+          <div className="inner-ctnr-bottom1">
+            <div className="pix">
+              <object
+                data={`${process.env.PUBLIC_URL}/pix.png`}
+                className="pix-home"
+              >
+                {" "}
+              </object>
+            </div>
 
-          <div className="cntr-bottom-deets">
-            
+            <div className="cntr-bottom-deets"></div>
           </div>
         </div>
+
+        <div className="inner-ctnr-top">
+          <div className="quotes">
+            <p>
+              quotesss
+            </p>
+          </div>
         </div>
-        
-        <div className="inner-ctnr-top"></div>
       </div>
     </div>
   );
