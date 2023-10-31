@@ -90,10 +90,9 @@ class GroupMembersListView(APIView):
         elif user_id:
             user_id=request.user.id
             queryset = Membership.objects.filter(user__user_id=user_id)
-            serializer = UserMembershipSerializer(queryset, many=True)
+            serializer = MembershipSerializer(queryset, many=True)
         else:
             queryset = Membership.objects.all()
-            
             serializer = MembershipSerializer(queryset, many=True)
         
         if serializer.is_valid:

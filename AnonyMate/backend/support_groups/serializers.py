@@ -22,7 +22,7 @@ class SupportGroupSerializer(serializers.ModelSerializer):
         return group
 
 class UserMembershipSerializer(serializers.ModelSerializer):
-    user = UserSerializer() 
+    user = UserSerializer()
     class Meta:
         model = Membership
         fields = '__all__'

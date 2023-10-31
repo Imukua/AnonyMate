@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from datetime import date, timedelta
+from django.utils import timezone
 class AppUserManager(BaseUserManager):
 	def create_user(self, username, password=None):
 		if not username:
@@ -63,7 +64,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 				self.login_streak = 1
 
 		# Update the last login date
-		self.last_login_date = today
+		self.last_login_date = timezone.now()
 
 		# Save the user model
 		self.save()

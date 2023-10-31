@@ -11,7 +11,7 @@ class SupportGroups(models.Model):
 class Membership(models.Model):
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     support_group = models.ForeignKey(SupportGroups, on_delete=models.CASCADE)
-    joined_date = models.DateTimeField(auto_now_add=True, timezone=True)
+    joined_date = models.DateTimeField(auto_now_add=True)
     is_moderator = models.BooleanField(default=False)
     is_blocked = models.BooleanField(default=False)
     
