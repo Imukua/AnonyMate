@@ -21,17 +21,17 @@ class UserRegister(APIView):
 
 
 class UserLogin(APIView):
-	permission_classes = (permissions.AllowAny,)
-	##
+	authentication_classes= [JWTAuthentication]
+	permission_classes = [permissions.IsAuthenticated]
 	def post(self, request):
-		data = request.data
-		assert validate_username(data)
-		assert validate_password(data)
-		serializer = UserLoginSerializer(data=data)
-		if serializer.is_valid(raise_exception=True):
-			user = serializer.check_user(data)
-			login(request, user)
-			return Response(serializer.data, status=status.HTTP_200_OK)
+		user_id=request.user.id 
+		try:
+			user = get_user_model().objects.get(user_id=user_id)
+		except get_user_model().DoesNotExist:
+			return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+		user.update_login_streak()
+		serializer = UserSerializer(user)
+		return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserLogout(APIView):

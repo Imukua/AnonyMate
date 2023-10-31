@@ -1,7 +1,7 @@
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import SupportGroupSerializer, MembershipSerializer, UserMembershipSerializer
+from .serializers import SupportGroupSerializer, MembershipSerializer,MembershipSerializerHome
 from .models import SupportGroups, Membership
 from rest_framework import permissions, status
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -90,7 +90,7 @@ class GroupMembersListView(APIView):
         elif user_id:
             user_id=request.user.id
             queryset = Membership.objects.filter(user__user_id=user_id)
-            serializer = MembershipSerializer(queryset, many=True)
+            serializer = MembershipSerializerHome(queryset, many=True)
         else:
             queryset = Membership.objects.all()
             serializer = MembershipSerializer(queryset, many=True)
