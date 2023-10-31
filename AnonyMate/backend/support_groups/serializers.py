@@ -21,6 +21,7 @@ class SupportGroupSerializer(serializers.ModelSerializer):
         group.save()
         return group
 
+
 class UserMembershipSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
@@ -33,7 +34,9 @@ class MembershipSerializer(serializers.ModelSerializer):
         model = Membership
         fields = '__all__'
 class MembershipSerializerHome(serializers.ModelSerializer):
-    support_group = SupportGroupSerializer()
+    group_name = serializers.CharField(source='support_group.group_name')
+    group_description = serializers.CharField(source='support_group.group_description')
+
     class Meta:
         model = Membership
-        fields = ('support_group',)
+        fields = ('group_name', 'group_description')
