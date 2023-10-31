@@ -1,5 +1,5 @@
 SECRET_KEY='django-insecure--o+^2-knvxng9b0p=hz8g6-l-y8h15%vn7)v2luv_2#$lq_xef'
 DEBUG=True
-DB_NAME="testonedb"
-DB_USER="testonedbadmin"
+DB_NAME="anonymate"
+DB_USER="anonymateadmin"
 DB_PASSWORD="anon11$"

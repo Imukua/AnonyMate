@@ -27,6 +27,8 @@ class UserMembershipSerializer(serializers.ModelSerializer):
         model = Membership
         fields = '__all__'
 class MembershipSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    support_group = SupportGroupSerializer()
     class Meta:
         model = Membership
         fields = '__all__'
