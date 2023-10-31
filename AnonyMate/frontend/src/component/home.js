@@ -27,6 +27,7 @@ export const Home = () => {
   ];
   const [streak, setStreak] = useState("");
   const [quotes, setQuotes] = useState([]);
+  const [groupDetails, setGroupDetails] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -50,7 +51,10 @@ export const Home = () => {
           });
           const groupData = groupResponse.data;
           console.log(groupData);
+          setGroupDetails(groupData);
+
           
+
         } catch (e) {
           console.log(e);
         }
@@ -180,7 +184,7 @@ export const Home = () => {
               <h3 className="ctnr-heading">My Groups</h3>
               <div class="caro-div">
                 <ScrollingCarousel>
-                  {slideData.map((d, i) => (
+                  {groupDetails.map((d, i) => (
                     <div
                       className="imgcdiv"
                       key={i}
@@ -198,10 +202,10 @@ export const Home = () => {
                           border: "2px solid orange",
                           boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
                         }}
-                        src={d.img}
+                        src={`${process.env.PUBLIC_URL}/groupprofilepic.jpg`}
                       />
                       <span style={{ fontSize: "10px", textAlign: "center" }}>
-                        {d.text}
+                        {d.group_name}
                       </span>
                     </div>
                   ))}
