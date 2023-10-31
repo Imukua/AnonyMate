@@ -1,2 +1,3 @@
 #ignore environment var in backend
 .env
+.env old
