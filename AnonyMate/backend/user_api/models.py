@@ -64,7 +64,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 				self.login_streak = 1
 
 		# Update the last login date
-		self.last_login_date = timezone.now()
+		self.last_login_date = today
 
 		# Save the user model
 		self.save()

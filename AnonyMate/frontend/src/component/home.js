@@ -25,7 +25,7 @@ export const Home = () => {
       img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAYAAADAQEAAAAAAAAAAAAAAAADBAYFAv/EAC0QAAEDAgQEAwkAAAAAAAAAAAECAwQFEQASIWEGMUFREyJxFDJSYpGhwdHh/8QAGAEAAwEBAAAAAAAAAAAAAAAAAQMEAgD/xAAeEQACAQMFAAAAAAAAAAAAAAABAgAREyEDEjJBQv/aAAwDAQACEQMRAD8AsFsbYCuPtjYWztgK2tsa3QFJjqjbYmalw6uRJelPqCE2JUpOtx6bdsWrxabF3XEIHzKAwoZUFRIEyMT28VJ/OOajDMC1U4hKpxNDp8hEd91tLy+aQq+X1On72wm/WWZ1Of8AZaszDlJzJSHmiqx6EEWHbodxfEsvhSqJflyC5HdcdW6prxHFEgLI5nKToAPXlvgNN4PqzGjwp0keGEgLdeTbe4Av/TicWzyNZS13yI/Hg0hyOl6o1JIqK02eU2C4OeoClam/fp0tjmVTqDQKcHXZzknx0qUGn0hXlJ943vl25ddOeAq4RqJOZMano6+SU9f7g4TXwxXpMtblREZacqbFLxUUlObLpkHxK+uGnVToxC6D1ys//9k=",
     },
   ];
-  const [message, setMessage] = useState("");
+  const [details, setDetails] = useState("");
   const [quotes, setQuotes] = useState([]);
 
   useEffect(() => {
@@ -35,13 +35,13 @@ export const Home = () => {
       const accessToken = localStorage.getItem("access_token");
       (async () => {
         try {
-          const { data } = await axios.get("http://localhost:8000/home/", {
+          const { data } = await axios.get("http://localhost:8000/login/", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
             },
           });
-          setMessage(data.message);
+          setDetails(data.message);
         } catch (e) {
           console.log(e);
         }
@@ -56,7 +56,7 @@ export const Home = () => {
     } else {
       // Fetch quotes and store them in localStorage
       axios
-        .get("https://api.api-ninjas.com/v1/quotes?category=happiness", {
+        .get("https://api.api-ninjas.com/v1/quotes?category=cats", {
           headers: {
             "Content-Type": "application/json",
             'X-Api-Key': 'PclwjNbke9yFN7BcMuP+Nw==8g7Erlot7SlYNzMk',

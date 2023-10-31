@@ -30,6 +30,7 @@ class UserLogin(APIView):
 		except get_user_model().DoesNotExist:
 			return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 		user.update_login_streak()
+		print("workedhhhhhhhhhhhhhhhhhhh")
 		serializer = UserSerializer(user)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
