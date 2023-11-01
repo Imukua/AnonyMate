@@ -275,6 +275,18 @@ label {
   padding-left: 32px;
   background-color: #f5f8ff;
 }
+.inner-ctnr-bottom2 {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding-top: 32px;
+  padding-right: 32px;
+  padding-bottom: 32px;
+  padding-left: 32px;
+    background-color: #f5f8ff;
+
+}
 
 .homepage-section {
   width: 100%;
@@ -384,8 +396,9 @@ label {
 .caro-div {
   overflow: hidden;
   margin-top: 3px;
-  width:70%;
+  width:80%;
   height: 100%;
+  border-radius: 30px;
  
 }
 /* FILEPATH: /home/simp/SchoolWork/AnonyMate/AnonyMate/frontend/src/App.css */
@@ -407,10 +420,24 @@ label {
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center; /* add this line */
+  align-items: center;
+}
+.pet-img-div {
+  display: flex;
+  height:70%;
+  position: relative;
+  border-radius: 30px;
+  background-color:#3c4043;
+  overflow: hidden;
+  border-color: orange;
+  border-style: groove;
 }
 
+.catpic {
+  height: 100%;
+  width: 100%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
 /* END: ed8c6549bwf9 */
 
 

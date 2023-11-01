@@ -1,25 +1,10 @@
-import  math
-#!/usr/bin/python3
-def is_prime(n):
-    """
-        Displays prime numbers btwn 1-250 and writes them in a file
-        Args: none
-        Return: none
-    """
-    if n  <= 1:
-       return False
-
-    for i in range(2, int(math.sqrt(n)) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-
-with open("results.txt","w") as file:
-    for num in range(1, 251):
-        if is_prime(num):
-            print(num)
-            file.write(str(num) + "\n")
-
+import requests
+name = 'abyssinian'
+api_url = 'https://api.api-ninjas.com/v1/cats'
+response = requests.get(api_url, headers={'X-Api-Key': 'PclwjNbke9yFN7BcMuP+Nw==8g7Erlot7SlYNzMk'})
+if response.status_code == requests.codes.ok:
+    print(response.text)
+else:
+    print("Error:", response.status_code, response.text)
 
             

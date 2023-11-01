@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import { Carousel, ScrollingCarousel } from "@trendyol-js/react-carousel";
+import { ScrollingCarousel } from "@trendyol-js/react-carousel";
 // Define the Login function.
 
 export const Home = () => {
@@ -25,6 +25,7 @@ export const Home = () => {
       img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAYAAADAQEAAAAAAAAAAAAAAAADBAYFAv/EAC0QAAEDAgQEAwkAAAAAAAAAAAECAwQFEQASIWEGMUFREyJxFDJSYpGhwdHh/8QAGAEAAwEBAAAAAAAAAAAAAAAAAQMEAgD/xAAeEQACAQMFAAAAAAAAAAAAAAABAgAREyEDEjJBQv/aAAwDAQACEQMRAD8AsFsbYCuPtjYWztgK2tsa3QFJjqjbYmalw6uRJelPqCE2JUpOtx6bdsWrxabF3XEIHzKAwoZUFRIEyMT28VJ/OOajDMC1U4hKpxNDp8hEd91tLy+aQq+X1On72wm/WWZ1Of8AZaszDlJzJSHmiqx6EEWHbodxfEsvhSqJflyC5HdcdW6prxHFEgLI5nKToAPXlvgNN4PqzGjwp0keGEgLdeTbe4Av/TicWzyNZS13yI/Hg0hyOl6o1JIqK02eU2C4OeoClam/fp0tjmVTqDQKcHXZzknx0qUGn0hXlJ943vl25ddOeAq4RqJOZMano6+SU9f7g4TXwxXpMtblREZacqbFLxUUlObLpkHxK+uGnVToxC6D1ys//9k=",
     },
   ];
+
   const [streak, setStreak] = useState("");
   const [quotes, setQuotes] = useState([]);
   const [groupDetails, setGroupDetails] = useState([]);
@@ -43,18 +44,18 @@ export const Home = () => {
             },
           });
           setStreak(data.login_streak);
-          const groupResponse = await axios.get("http://127.0.0.1:8000/api/group/1/members/?user_id=yes", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const groupResponse = await axios.get(
+            "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const groupData = groupResponse.data;
           console.log(groupData);
           setGroupDetails(groupData);
-
-          
-
         } catch (e) {
           console.log(e);
         }
@@ -68,22 +69,23 @@ export const Home = () => {
       setQuotes(storedQuotes);
     } else {
       // Fetch quotes and store them in localStorage
-      axios
-        .get("https://api.api-ninjas.com/v1/quotes?category=cats", {
-          headers: {
-            "Content-Type": "application/json",
-            'X-Api-Key': 'PclwjNbke9yFN7BcMuP+Nw==8g7Erlot7SlYNzMk',
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          const fetchedQuotes = response.data.quote;
-          setQuotes(fetchedQuotes);
-          localStorage.setItem("quotes", JSON.stringify(fetchedQuotes));
-        })
-        .catch((error) => {
-          console.log("Error fetching quotes:", error);
-        });
+      (async () => {
+        try {
+          const { data } = await axios.get(
+            "https://api.api-ninjas.com/v1/cats/?name=abyssinian",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "X-Api-Key": "PclwjNbke9yFN7BcMuP+Nw==8g7Erlot7SlYNzMk",
+              },
+            }
+          );
+
+          setQuotes(data[0]);
+        } catch (e) {
+          console.log(e);
+        }
+      })();
     }
   }, []);
   return (
@@ -182,13 +184,10 @@ export const Home = () => {
             </div>
             <div className="streak-ctnr">
               <h3 className="ctnr-heading">My Groups</h3>
-              <div class="caro-div">
+              <div className="caro-div">
                 <ScrollingCarousel>
                   {groupDetails.map((d, i) => (
-                    <div
-                      className="imgcdiv"
-                      key={i}
-                    >
+                    <div className="imgcdiv" key={i}>
                       <img
                         alt="ian"
                         style={{
@@ -237,11 +236,11 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="inner-ctnr-top">
+        <div className="inner-ctnr-bottom2">
           <div className="quotes">
-            <p>
-              {quotes}
-            </p>
+            <div className="pet-img-div">
+              <img  className="catpic" alt="catpic" src={quotes.image_link} />
+            </div>
           </div>
         </div>
       </div>
