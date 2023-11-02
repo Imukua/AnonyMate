@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = 'http://localhost:8000/api/';
-
 let refresh = false;
 
 axios.interceptors.response.use(resp => resp, async error => {
@@ -10,7 +8,7 @@ axios.interceptors.response.use(resp => resp, async error => {
 
         console.log(localStorage.getItem('refresh_token'))
         const response = await axios.post('http://localhost:8000/token/refresh/', {
-            refresh:localStorage.getItem('refresh_token')
+            refresh: localStorage.getItem('refresh_token')
         }, {
             headers: {
               'Content-Type': 'application/json',
@@ -18,13 +16,18 @@ axios.interceptors.response.use(resp => resp, async error => {
           },{withCredentials: true});
 
         if (response.status === 200) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['access']}`;
+            const newAccessToken = `Bearer ${response.data['access']}`;
+            axios.defaults.headers.common['Authorization'] = newAccessToken;
             localStorage.setItem('access_token', response.data.access);
             localStorage.setItem('refresh_token', response.data.refresh);
+
+            // Update the original request's headers before retrying it
+            error.config.headers['Authorization'] = newAccessToken;
 
             return axios(error.config);
         }
     }
     refresh = false;
-    return error;
+    console.log("failed refresh test")
+    return Promise.reject(error);
 });

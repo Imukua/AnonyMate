@@ -37,25 +37,30 @@ export const Home = () => {
       const accessToken = localStorage.getItem("access_token");
       (async () => {
         try {
-          const { data } = await axios.post("http://localhost:8000/login/", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-          setStreak(data.login_streak);
-          const groupResponse = await axios.get(
-            "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
-            {
+          try {
+            const { data } = await axios.post("http://localhost:8000/login/", null, {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
+                "Authorization": `Bearer ${accessToken}`,
               },
-            }
-          );
-          const groupData = groupResponse.data;
-          console.log(groupData);
-          setGroupDetails(groupData);
+            });
+            setStreak(data.login_streak);
+            const groupResponse = await axios.get(
+              "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${accessToken}`,
+                },
+              }
+            );
+            const groupData = groupResponse.data;
+            console.log(groupData);
+            setGroupDetails(groupData);
+          } catch (error) {
+            console.error(error);
+            // handle error here
+          }
         } catch (e) {
           console.log(e);
         }
@@ -93,8 +98,11 @@ export const Home = () => {
       <div className="Overview-ctnr">
         <div className="Overview-txt">
           <h2 className="Overview-txt-txt">Overview </h2>
-          <button className="button-10">
-            <DashboardRoundedIcon></DashboardRoundedIcon>Dashboard
+          <button 
+          className="button-10"
+          onClick={() => window.location.href = "/chat/lobby"}
+          >
+            <DashboardRoundedIcon></DashboardRoundedIcon>Chat
           </button>
         </div>
       </div>

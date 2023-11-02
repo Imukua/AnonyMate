@@ -6,9 +6,9 @@ from channels.generic.websocket import WebsocketConsumer
 class GroupChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' %self.room_name
-
-        #Join aa group caht
+        self.room_group_name = 'chat_%s' % self.room_name
+        self.user = self.scope['user']
+        # Join a group chat
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
@@ -32,6 +32,7 @@ class GroupChatConsumer(WebsocketConsumer):
         sender = text_data_json['sender']
 
         #send message to room group
+        print("tumefika hapa")
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
@@ -39,7 +40,9 @@ class GroupChatConsumer(WebsocketConsumer):
                 "message": text,
                 "sender": sender
             }
+           
         )
+        print("tumefika hapa")
 
     def chat_message(self, event):
         text = event["message"]

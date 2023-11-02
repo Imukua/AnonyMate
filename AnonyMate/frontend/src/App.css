@@ -4,6 +4,13 @@ body {
   height: 100%;
 }
 
+:root {
+  --send-bg: #0B93F6;
+  --send-color: white;
+  --receive-bg: #E5E5EA;
+  --receive-text: black;
+  --page-background: white;
+}
 .App {
   text-align: center;
 }
@@ -500,10 +507,9 @@ label {
 }
 .message-box-cntr {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-radius: 12px;
-  border: 1px solid #229fff;
-  margin-top: auto;
+  flex-grow: 1;
 }
 
 .send-msg{
@@ -512,6 +518,83 @@ label {
   display: flex;
   justify-content: center;
 }
+
+
+
+.message1 {
+  color: #100a0a;
+  border: 1px solid black;
+  height: 40px;
+  width: 100px;
+  border-bottom-right-radius: 0.5rem;
+  display: flex;
+  background-color: #2f64e1;
+  justify-content: left;
+  
+}
+
+  .message1 {
+    background: var(--receive-bg);
+    color: black;
+    align-self: flex-start;
+    margin-left: 10px;
+    border-bottom-right-radius: 16px 14px;
+    &:before {
+      left: -7px;
+      width: 20px;
+      background-color: var(--receive-bg);
+      border-bottom-right-radius: 16px 14px;
+    }
+  
+    &:after {
+      left: -26px;
+      width: 26px;
+      background-color: var(--page-background);
+      border-bottom-right-radius: 10px;
+    }
+  }
+
+
+  .message {
+    color: var(--send-color); 
+    background: var(--send-bg);
+    align-self: flex-end;
+    border-radius: 20px;
+    height: fit-content; 
+  
+  }
+.messagehold {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  width: 100%;
+  max-height: 500px; /* Set a maximum height for the container */
+  overflow-y: auto;
+  padding-right: 10px; /* Add a vertical scrollbar if needed */
+  padding-left: 10px; /* Add a vertical scrollbar if needed */
+}
+
+.message-txt {
+  max-width: 255px;
+  min-width: 100px;
+  word-wrap: break-word;
+  line-height: 24px;
+  position: relative;
+	padding: 2% 10px;
+  border-radius: 25px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+  
+  &:before, &:after {
+    content: "";
+		position: absolute;
+    bottom: 0;
+    height: 25px;
+  }
+}
+
 /* CSS */
 .button-10 {
   display: flex;

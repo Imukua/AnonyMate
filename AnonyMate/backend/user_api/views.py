@@ -22,7 +22,7 @@ class UserRegister(APIView):
 
 class UserLogin(APIView):
 	authentication_classes= [JWTAuthentication]
-	permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticated,]
 	def post(self, request):
 		user_id=request.user.id 
 		try:
@@ -30,14 +30,13 @@ class UserLogin(APIView):
 		except get_user_model().DoesNotExist:
 			return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 		user.update_login_streak()
-		print("workedhhhhhhhhhhhhhhhhhhh")
 		serializer = UserSerializer(user)
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserLogout(APIView):
 	authentication_classes = [JWTAuthentication]
-	permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticated,]
 
 	def post(self, request):
 			refresh_token = request.data.get("refresh_token")

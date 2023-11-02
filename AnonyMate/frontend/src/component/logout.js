@@ -6,10 +6,12 @@ export const Logout = () => {
     useEffect(() => {
         (async () => {
             try {
+                const access_token = localStorage.getItem('access_token')
                 const {data} = await axios.post('http://localhost:8000/logout/',{
                     refresh_token:localStorage.getItem('refresh_token')
                 } ,{headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${access_token}`,
                 }}, {withCredentials: true});
 
                 console.log('logout', data)

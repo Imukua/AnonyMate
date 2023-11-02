@@ -1,13 +1,90 @@
 import React, { useState, useEffect } from "react";
-import WebSocketClient from "websocket";
-import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import axios from "axios"
 
 const Chat = () => {
-  const [mesage, setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
+  
 
-  useEffect ({})
+  const [groupDetails, setGroupDetails] = useState([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token") === null) {
+      window.location.href = "/login";
+    } else {
+      const accessToken = localStorage.getItem("access_token");
+      (async () => {
+        try {
+          try {
+            const { data } = await axios.post("http://localhost:8000/login/", null, {
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`,
+              },
+            });
+            const groupResponse = await axios.get(
+              "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${accessToken}`,
+                },
+              }
+            );
+            const groupData = groupResponse.data;
+            console.log(groupData);
+            setGroupDetails(groupData);
+          } catch (error) {
+            console.error(error);
+            // handle error here
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    }
+  }, []);
+
+  useEffect (() =>{
+    const newSocket = new WebSocket('ws://localhost:8000/ws/lobby/');
+    newSocket.onopen = () => {
+      console.log("connection made successfully")
+      setSocket(newSocket);
+    }
+
+    newSocket.onmessage = (e) => {
+
+      console.log(e.data)
+    //handle incoming message
+    const receivedMessage = JSON.parse(e.data);
+    console.log(receivedMessage.text)
+    setMessages((prevMesssages) => [...prevMesssages, receivedMessage.text])
+
+    };
+
+    newSocket.onclose = () =>{
+      console.log("websocket connection closed")
+    };
+
+
+    return () => {
+      if (newSocket) {
+        newSocket.close();
+      }
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if(socket) {
+      const data = JSON.stringify({"text": message, "sender": "ian"});
+      console.log(`Sending message: ${data}`);
+      socket.send(data);
+      setMessage("");
+    } else {
+      console.log('Cannot send message, socket is not connected');
+    }
+  }
 
   return (
     <div className="chat-cntr">
@@ -21,10 +98,23 @@ const Chat = () => {
           <h3 className="">chats</h3>
         </div>
         <div class="message-box-cntr">
-          <input className="messageBox"></input>
-          <div class="send-msg">
-            <SendRoundedIcon></SendRoundedIcon>
+          <div class="messagehold">
+            {messages.map((msg, index) => (
+              <div key={index} className="message">
+                <p className="message-txt">{msg}</p>
+              </div>
+            ))}
           </div>
+          <input
+          className="messageBox"
+          value={message}
+          onChange={ (e) => setMessage(e.target.value)}
+          onKeyDown={ (e) => {
+            if (e.key === 'Enter') {
+              sendMessage();
+            }
+          }}
+          ></input>
         </div>
       </div>
       <div className="chat-users-cntr">
