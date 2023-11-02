@@ -5,7 +5,7 @@ import {Home} from  "./component/home";
 import {Logout} from "./component/logout";
 import { Signup } from './component/signup';
 import { Navigation } from './component/navigation';
-
+import Chat from "./component/chat";
 
 function App() {
     return(
@@ -16,6 +16,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/logout" element={<Logout/>}/>
             <Route path="/signup" element={<Signup/>}/>
+            <Route path="/chat" element={<Chat/>}/>
         </Routes>
         </BrowserRouter>
     )
