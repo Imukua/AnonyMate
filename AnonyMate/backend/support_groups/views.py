@@ -1,19 +1,19 @@
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import SupportGroupSerializer, MembershipSerializer,MembershipSerializerHome
+from .serializers import SupportGroupSerializer, MembershipSerializer, MembershipSerializerHome
 from .models import SupportGroups, Membership
 from rest_framework import permissions, status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from .validations import validate_description, validate_name
 
+
 class CreateGroup(APIView):
     queryset = SupportGroups.objects.all()
     serializer_class = SupportGroupSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-
 
     def post(self, request):
         clean_data = request.data
@@ -23,7 +23,7 @@ class CreateGroup(APIView):
         if serializer.is_valid(raise_exception=True):
             support_group = serializer.create_group(clean_data)
         if support_group:
-            usergroup=Membership.objects.create(
+            usergroup = Membership.objects.create(
                 user=request.user,
                 support_group=support_group,
                 is_moderator=True,
@@ -31,7 +31,6 @@ class CreateGroup(APIView):
             usergroup.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class JoinGroupView(APIView):
@@ -43,16 +42,17 @@ class JoinGroupView(APIView):
         try:
             group = SupportGroups.objects.get(group_id=group_id)
         except SupportGroups.DoesNotExist:
-            return Response({"detail":"Support group not found"}, status=status.HTTP_404_NOT_FOUND)
-        user_id = request.user.id 
+            return Response({"detail": "Support group not found"}, status=status.HTTP_404_NOT_FOUND)
+        user_id = request.user.id
         if Membership.objects.filter(user__user_id=user_id, support_group__group_id=group_id):
-            return Response({"Detail":"User already member of the group"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"Detail": "User already member of the group"}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            newrecord=Membership.objects.create(
-                user = request.user,
-                support_group = group)
+            newrecord = Membership.objects.create(
+                user=request.user,
+                support_group=group)
             newrecord.save()
-            return Response({"Detail":"User joined group successfully"}, status=status.HTTP_201_CREATED)           
+            return Response({"Detail": "User joined group successfully"}, status=status.HTTP_201_CREATED)
+
 
 class ListGroupsView(APIView):
     serializer_class = SupportGroupSerializer
@@ -73,7 +73,7 @@ class ListGroupsView(APIView):
         if serializer.is_valid:
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({"detail": "Support group not found."}, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({"detail": "Support group not found."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GroupMembersListView(APIView):
@@ -85,16 +85,17 @@ class GroupMembersListView(APIView):
         user_id = request.query_params.get('user_id')
         group_id1 = request.query_params.get('group_id')
         if group_id1:
-            queryset = Membership.objects.filter(support_group__group_id=group_id)
+            queryset = Membership.objects.filter(
+                support_group__group_id=group_id)
             serializer = MembershipSerializer(queryset, many=True)
         elif user_id:
-            user_id=request.user.id
+            user_id = request.user.id
             queryset = Membership.objects.filter(user__user_id=user_id)
             serializer = MembershipSerializerHome(queryset, many=True)
         else:
             queryset = Membership.objects.all()
             serializer = MembershipSerializer(queryset, many=True)
-        
+
         if serializer.is_valid:
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
@@ -102,7 +103,8 @@ class GroupMembersListView(APIView):
 
     def put(self, request, group_id):
         user_id = request.user.id
-        is_moderator = Membership.objects.filter(user=user_id, support_group__group_id=group_id, is_moderator=True).exists()
+        is_moderator = Membership.objects.filter(
+            user=user_id, support_group__group_id=group_id, is_moderator=True).exists()
         if is_moderator:
             if validate_description(request.data):
                 group = SupportGroups.objects.get(group_id=group_id)
@@ -124,15 +126,26 @@ class ExitGroupView(APIView):
         try:
             group = SupportGroups.objects.get(group_id=group_id)
         except SupportGroups.DoesNotExist:
-            return Response({"detail":"Support group not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Support group not found"}, status=status.HTTP_404_NOT_FOUND)
         user_id = request.user.id
         try:
-            membership = Membership.objects.filter(user__user_id=user_id, support_group__group_id=group_id)
+            membership = Membership.objects.filter(
+                user__user_id=user_id, support_group__group_id=group_id)
         except Membership.DoesNotExist:
-            return Response({"Detail":"User is not member of the group"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"Detail": "User is not member of the group"}, status=status.HTTP_400_BAD_REQUEST)
         membership.delete()
-        remaining_members = Membership.objects.filter(support_group = group)
+        remaining_members = Membership.objects.filter(support_group=group)
         if not remaining_members:
             group.delete()
-            return Response({"Detail":"User left group and group deleted successfully"}, status=status.HTTP_200_OK)           
-        return Response({"Detail":"User left group successfully"}, status=status.HTTP_200_OK)           
+            return Response({"Detail": "User left group and group deleted successfully"}, status=status.HTTP_200_OK)
+        return Response({"Detail": "User left group successfully"}, status=status.HTTP_200_OK)
+
+
+class ConfirmMembership:
+    def post(self, request, group_name):
+        user_id = request.user.id
+        try:
+            membership = Membership.objects.get(user__user_id=user_id, support_group__group_name=group_name)
+            return Response({"Detail":"Successfull", "group_name":group_name}, status=status.HTTP_200_OK)
+        except Membership.DoesNotExist:
+            return Response({"Detail":"Not authorised", "group_name": group_name}, status=status.HTTP_403_FORBIDDEN)
