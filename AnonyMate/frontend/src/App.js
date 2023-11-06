@@ -6,6 +6,7 @@ import {Logout} from "./component/logout";
 import { Signup } from './component/signup';
 import { Navigation } from './component/navigation';
 import Chat from "./component/chat";
+import ProductList from './component/ProductList';
 
 function App() {
     return(
@@ -17,6 +18,8 @@ function App() {
             <Route path="/logout" element={<Logout/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/chat/:chatname" element={<Chat/>}/>
+            <Route path="prod" element={<ProductList/>}/>
+           
         </Routes>
         </BrowserRouter>
     )

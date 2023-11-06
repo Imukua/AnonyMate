@@ -30,9 +30,9 @@ class GroupChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         text = text_data_json['text']
         sender = text_data_json['sender']
+        print("{} sent a message".format(sender))
 
         #send message to room group
-        print("tumefika hapa")
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
