@@ -14,12 +14,13 @@ export const Logout = () => {
                     "Authorization": `Bearer ${access_token}`,
                 }}, {withCredentials: true});
 
-                console.log('logout', data)
+                console.log('logout')
                 localStorage.clear();
                 axios.defaults.headers.common['Authorization'] = null;
                 window.location.href = '/login'
             } catch (e) {
-                console.log('logout not working')
+                localStorage.clear();
+                console.log("logged out")
             }
         })();
     }, []);

@@ -27,8 +27,17 @@ export const Home = () => {
   ];
 
   const [streak, setStreak] = useState("");
+  const [username, setUsername] = useState("");
   const [quotes, setQuotes] = useState([]);
   const [groupDetails, setGroupDetails] = useState([]);
+  const [pet, setPet] = useState("cats");
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  const rand = getRandomInt(1, 5);
 
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -38,19 +47,24 @@ export const Home = () => {
       (async () => {
         try {
           try {
-            const { data } = await axios.post("http://localhost:8000/login/", null, {
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`,
-              },
-            });
+            const { data } = await axios.post(
+              "http://localhost:8000/login/",
+              null,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              }
+            );
+            setUsername(data.username);
             setStreak(data.login_streak);
             const groupResponse = await axios.get(
               "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
               {
                 headers: {
                   "Content-Type": "application/json",
-                  "Authorization": `Bearer ${accessToken}`,
+                  Authorization: `Bearer ${accessToken}`,
                 },
               }
             );
@@ -77,7 +91,7 @@ export const Home = () => {
       (async () => {
         try {
           const { data } = await axios.get(
-            "https://api.api-ninjas.com/v1/cats/?name=abyssinian",
+            `https://api.api-ninjas.com/v1/${pet}?shedding=${rand}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -85,7 +99,6 @@ export const Home = () => {
               },
             }
           );
-
           setQuotes(data[0]);
         } catch (e) {
           console.log(e);
@@ -93,21 +106,33 @@ export const Home = () => {
       })();
     }
   }, []);
+
+  useEffect(() => {
+    const onBeforeUnload = (e) => {
+      setQuotes([]);
+      console.log(quotes);
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+    };
+  });
+
   return (
     <div className="homepage-ctnr">
       <div className="Overview-ctnr">
         <div className="Overview-txt">
-          <h2 className="Overview-txt-txt">Overview </h2>
-          <button 
-          className="button-10"
-          onClick={() => window.location.href = "/chat/lobby"}
+          <h2 className="Overview-txt-txt">My space </h2>
+          <button
+            className="button-10"
+            onClick={() => (window.location.href = "/chat/lobby")}
           >
             <DashboardRoundedIcon></DashboardRoundedIcon>Chat
           </button>
         </div>
       </div>
-      <div className="homepage-section">
-        <div className="inner-ctnr-top">
+      <div className="homepage-section ">
+        <div className="inner-ctnr-top inner-ctnr-top-col">
           <div className="inner-cntr1">
             <div className="icon-ctnr">
               <object
@@ -129,8 +154,8 @@ export const Home = () => {
             </button>
           </div>
         </div>
-        <div className="inner-ctnr-top">
-          <div className="inner-cntr1">
+        <div className="inner-ctnr-top ">
+          <div className="inner-cntr1 ">
             <div className="icon-ctnr">
               <object
                 data={`${process.env.PUBLIC_URL}/friends-pix.png`}
@@ -195,7 +220,13 @@ export const Home = () => {
               <div className="caro-div">
                 <ScrollingCarousel>
                   {groupDetails.map((d, i) => (
-                    <div className="imgcdiv" key={i}>
+                    <div
+                      className="imgcdiv"
+                      key={i}
+                      onClick={() =>
+                        (window.location.href = `http://localhost:3000/chat/${d.group_name}`)
+                      }
+                    >
                       <img
                         alt="ian"
                         style={{
@@ -221,7 +252,10 @@ export const Home = () => {
             </div>
           </div>
           <div className="inner-cntr2">
-            <button className="button-10-b">
+            <button
+              onClick={() => (window.location.href = "/prod")}
+              className="button-10-b"
+            >
               <span>Browse all groups</span>
               <ArrowForwardRoundedIcon></ArrowForwardRoundedIcon>
             </button>
@@ -240,14 +274,51 @@ export const Home = () => {
               </object>
             </div>
 
-            <div className="cntr-bottom-deets"></div>
+            <div className="cntr-bottom-deets">
+              <span className="unamespan">
+                Hi👋&nbsp;<h2 className="unametxtx">{username}</h2>
+                ,&nbsp;welcome home
+              </span>
+              <div id="quoteds">
+                <blockquote className="lavander">
+                  <p>
+                    Big type, even huge type, can be beautiful and useful. But
+                    poise is usually far&nbsp;more important than size – and
+                    poise consists primarily of emptiness. Typographically,
+                    poise is&nbsp;made of&nbsp;white&nbsp;space.
+                  </p>
+
+                  <footer>Robert Bringhurst</footer>
+                </blockquote>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="inner-ctnr-bottom2">
           <div className="quotes">
             <div className="pet-img-div">
-              <img  className="catpic" alt="catpic" src={quotes.image_link} />
+              <img className="catpic" alt="catpic" src={quotes.image_link} />
+            </div>
+            <div className="catpic-details">
+              <div className="catdeets">
+                <h3 className="ctnr-heading2">Name:</h3>
+                <h5>{quotes.name}</h5>
+              </div>
+              <div className="catdeets">
+                <h3 className="ctnr-heading2">Origin:</h3>
+                <h5>{quotes.origin || "uknown"}</h5>
+              </div>
+            </div>
+            <div className="catpic-details">
+              <div className="catdeets">
+                <h3 className="ctnr-heading2">Playfullness:</h3>
+                <h5>{quotes.playfulness}</h5>
+              </div>
+              <div className="catdeets ">
+                <h3 className="ctnr-heading2">Life:</h3>
+                <h5>{quotes.min_life_expectancy}yrs</h5>
+              </div>
             </div>
           </div>
         </div>

@@ -10,6 +10,7 @@ import Diversity1RoundedIcon from "@mui/icons-material/Diversity1Rounded";
 import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
 import Diversity2RoundedIcon from "@mui/icons-material/Diversity2Rounded";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 export function Navigation() {
   const [isAuth, setIsAuth] = useState(false);
@@ -30,16 +31,7 @@ export function Navigation() {
           </section>
         )}
         <Nav className="me-a">
-          {isAuth ? (
-            <Nav.Link href="/">
-              <object
-                data={`${process.env.PUBLIC_URL}/ghost.svg`}
-                className="ghost-home"
-              >
-                {" "}
-              </object>
-            </Nav.Link>
-          ) : null}
+          Anonymate
         </Nav>
         <Nav className="far-end">
           <Nav.Link href="/about">
@@ -76,7 +68,7 @@ export function Navigation() {
           </button>
 
           <button className="button-17">
-            <RssFeedRoundedIcon className="nav-icons"></RssFeedRoundedIcon>Feed
+            <QuestionAnswerIcon className="nav-icons"></QuestionAnswerIcon>Chats
           </button>
 
           <button className="button-17">
