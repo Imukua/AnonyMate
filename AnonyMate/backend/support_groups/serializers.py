@@ -40,3 +40,10 @@ class MembershipSerializerHome(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = ('group_name', 'group_description')
+
+class SupportGroupSerializer2(serializers.ModelSerializer):
+    is_member = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = SupportGroups
+        fields = ('group_name', 'group_description', 'is_member', 'group_id')
