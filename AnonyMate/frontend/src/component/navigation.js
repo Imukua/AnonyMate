@@ -11,6 +11,8 @@ import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
 import Diversity2RoundedIcon from "@mui/icons-material/Diversity2Rounded";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import { Link } from 'react-router-dom';
+
 
 export function Navigation() {
   const [isAuth, setIsAuth] = useState(false);
@@ -30,10 +32,44 @@ export function Navigation() {
             </div>
           </section>
         )}
-        <Nav className="me-a">
-          Anonymate
-        </Nav>
+      
         <Nav className="far-end">
+          {isAuth ? (
+            null
+          ) : (
+            <Nav.Link href="/login">
+              <LoginRoundedIcon fontSize="large"></LoginRoundedIcon>
+            </Nav.Link>
+          )}
+        </Nav>
+      </div>
+
+      {isAuth ? (
+        <div className="navwrapper2">
+          <Link to="/home">
+          <button className="button-17">
+            <HomeIcon className="nav-icons"></HomeIcon>Home
+          </button>
+          </Link>
+    
+          <Link to="/groups">
+          <button className="button-17">
+            <Diversity1RoundedIcon className="nav-icons"></Diversity1RoundedIcon>Groups
+          </button>
+          </Link>
+
+          <Link to="/chat">
+          <button className="button-17">
+            <QuestionAnswerIcon className="nav-icons"></QuestionAnswerIcon>Chats
+          </button>
+          </Link>
+
+          <Link to="/groups">
+          <button className="button-17">
+            <Diversity2RoundedIcon className="nav-icons"></Diversity2RoundedIcon>AI-friend
+          </button>
+          </Link>
+          <nav class="ih">
           <Nav.Link href="/about">
             <InfoRoundedIcon className="nav-icons2" fontSize="large"></InfoRoundedIcon>
           </Nav.Link>
@@ -54,26 +90,7 @@ export function Navigation() {
               <LoginRoundedIcon fontSize="large"></LoginRoundedIcon>
             </Nav.Link>
           )}
-        </Nav>
-      </div>
-
-      {isAuth ? (
-        <div className="navwrapper2">
-          <button className="button-17">
-            <HomeIcon className="nav-icons"></HomeIcon>Home
-          </button>
-
-          <button className="button-17">
-            <Diversity1RoundedIcon className="nav-icons"></Diversity1RoundedIcon>Groups
-          </button>
-
-          <button className="button-17">
-            <QuestionAnswerIcon className="nav-icons"></QuestionAnswerIcon>Chats
-          </button>
-
-          <button className="button-17">
-            <Diversity2RoundedIcon className="nav-icons"></Diversity2RoundedIcon>AI-friend
-          </button>
+          </nav>
         </div>
       ) : null}
     </Navbar>

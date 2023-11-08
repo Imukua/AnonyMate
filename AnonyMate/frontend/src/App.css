@@ -190,6 +190,7 @@ label {
   border-radius: 10px;
   padding-left: 10%;
   padding-right: 10%;
+  margin-top: 60px;
 }
 .navwrapper2 {
   width: 100%;
@@ -200,7 +201,6 @@ label {
   margin-top: 0px;
   padding-top: 0px;
   flex: 1 1 auto;
-  justify-content: space-between;
   /* border-width:2px;
   border-style:solid;
   border-color:black;*/
@@ -979,6 +979,15 @@ blockquote.gray{
   color: red;
 }
 /* These CSS classes used just for Demo purpose */
+
+
+.ih {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  gap: 10px;
+}
 
 
 

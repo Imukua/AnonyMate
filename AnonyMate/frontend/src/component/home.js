@@ -253,7 +253,7 @@ export const Home = () => {
           </div>
           <div className="inner-cntr2">
             <button
-              onClick={() => (window.location.href = "/prod")}
+              onClick={() => (window.location.href = "/groups")}
               className="button-10-b"
             >
               <span>Browse all groups</span>

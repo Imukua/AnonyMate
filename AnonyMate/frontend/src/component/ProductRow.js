@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import ErrorIcon from '@mui/icons-material/Error';
+
 
 
 const ProductRow = (props) => {
@@ -114,7 +116,7 @@ const ProductRow = (props) => {
         
       >
         <Modal.Header closeButton>
-          <Modal.Title className="modalLeaveTitle">Leaving so soon ?</Modal.Title>
+          <Modal.Title className="modalLeaveTitle"><ErrorIcon fontSize="large"></ErrorIcon> <span>Leaving so soon ?</span></Modal.Title>
         </Modal.Header>
         <Modal.Body className="modalLeave">
           Are you sure you want to leave <span className="gname">{productName}</span> ?

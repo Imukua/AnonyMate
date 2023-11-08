@@ -13,12 +13,13 @@ function App() {
         <BrowserRouter>
         <Navigation></Navigation>
         <Routes>
-            <Route path="/" element={<Home/>}/>
+            <Route path="/Home" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/logout" element={<Logout/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/chat/:chatname" element={<Chat/>}/>
-            <Route path="prod" element={<ProductList/>}/>
+            <Route path="/chat" element={<Chat/>}/>
+            <Route path="/groups" element={<ProductList/>}/>
            
         </Routes>
         </BrowserRouter>
