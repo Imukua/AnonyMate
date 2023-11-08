@@ -9,4 +9,6 @@ urlpatterns = [
     path('<int:group_id>/update/', views.GroupMembersListView.as_view(), name='support-group-members-by-id'),
     path('<int:group_id>/join/', views.JoinGroupView.as_view(), name='support-group-members-by-id'),
     path('<int:group_id>/leave/', views.ExitGroupView.as_view(), name='support-group-members-by-id'),
+    path('non/', views.ListOtherGroupsView.as_view(), name='list-groups-user-not-part-of'),
+    path('non2/', views.ListOtherGroupsView2.as_view(), name='list-groups-user-not-part-of2'),
 ]

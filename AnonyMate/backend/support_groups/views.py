@@ -1,7 +1,7 @@
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import SupportGroupSerializer, MembershipSerializer, MembershipSerializerHome
+from .serializers import SupportGroupSerializer, SupportGroupSerializer2,MembershipSerializer, MembershipSerializerHome
 from .models import SupportGroups, Membership
 from rest_framework import permissions, status
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -17,7 +17,7 @@ class CreateGroup(APIView):
 
     def post(self, request):
         clean_data = request.data
-        if not validate_name or not validate_description:
+        if not validate_name(clean_data) or not validate_description(clean_data):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = SupportGroupSerializer(data=clean_data)
         if serializer.is_valid(raise_exception=True):
@@ -149,3 +149,28 @@ class ConfirmMembership:
             return Response({"Detail":"Successfull", "group_name":group_name}, status=status.HTTP_200_OK)
         except Membership.DoesNotExist:
             return Response({"Detail":"Not authorised", "group_name": group_name}, status=status.HTTP_403_FORBIDDEN)
+
+
+class ListOtherGroupsView(APIView):
+    serializer_class = SupportGroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request):
+        user_id = request.user.id
+        groups = SupportGroups.objects.exclude(membership__user_id=user_id)
+        serializer = self.serializer_class(groups, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ListOtherGroupsView2(APIView):
+    serializer_class = SupportGroupSerializer2
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request):
+        user_id = request.user.id
+        groups = SupportGroups.objects.all()
+        for group in groups:
+            group.is_member = Membership.objects.filter(user__user_id=user_id, support_group=group).exists()
+        serializer = self.serializer_class(groups, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
