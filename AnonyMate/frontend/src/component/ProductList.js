@@ -54,7 +54,7 @@ function ProductList() {
         theme: "colored",
         });
 
-        setTimeout("window.location.reload()",3000);
+        setTimeout(window.location.reload(),3000);
 
     } catch (error) {
       toast.error(`${groupname} not created, check name or sescription!`, {
@@ -169,7 +169,7 @@ function ProductList() {
       <div className="container main-content">
         {groups.map((group) => (
           <ProductRow
-            imageUrl={`${process.env.PUBLIC_URL}/fire.png`}
+            imageUrl={`${process.env.PUBLIC_URL}/grouppix.png`}
             productName={group.group_name}
             productDescription={group.group_description}
             productId={group.group_id}

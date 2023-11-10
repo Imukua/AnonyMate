@@ -1,7 +1,7 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
+
 }
 
 :root {
@@ -138,6 +138,12 @@ label {
   width: 90px;
   height: 90px;
 }
+.ghost-in {
+  position: relative;
+  top: 0px;
+  width: 50px;
+  height: 50px;
+}
 .ghost-home {
   position: relative;
   left: 50%;
@@ -257,11 +263,9 @@ label {
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: min-content;
   border-radius: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  padding-bottom: 30px;
-
 }
 .inner-ctnr-top-col {
   border-left-style: solid;
@@ -274,7 +278,6 @@ label {
   height: 100%;
   border-radius: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
- 
 }
 .inner-ctnr-bottom1 {
   width: 100%;
@@ -286,17 +289,12 @@ label {
   padding-bottom: 32px;
   padding-left: 32px;
   background-color: #f5f8ff;
-  
 }
 .inner-ctnr-bottom2 {
   width: 100%;
   display: flex;
   flex-direction: row;
   height: 100%;
-  padding-top: 32px;
-  padding-right: 32px;
-  padding-bottom: 32px;
-  padding-left: 32px;
   border-right-color: #f6ba59;
   border-right-style: solid;
   border-width: 10px;
@@ -306,26 +304,25 @@ label {
 
 .homepage-section {
   width: 100%;
-  height: 200px;
   display: flex;
   padding-left: 10%;
   padding-right: 10%;
   margin-top: 0px;
-  flex: 1 1 auto;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: row;
 }
+@media screen and (max-width: 1184px) {
+  .homepage-section {
+    flex-direction: column;
+  }
+}
+
 .homepage-section2 {
   width: 100%;
-  height: 300px;
   display: flex;
+  flex-direction: column;
   padding-left: 10%;
   padding-right: 10%;
   margin-top: 0px;
-  padding-top: 5px;
-  flex: 1 1 auto;
-  justify-content: space-between;
-  gap: 15px;
 }
 
 .Overview-ctnr {
@@ -413,7 +410,6 @@ label {
 
 .pix {
   width: 300px;
-  
 }
 
 .caro-div {
@@ -443,11 +439,16 @@ label {
   width: 100%;
   display: flex;
   align-items: center;
-  
+  padding-top: 32px;
+  padding-right: 32px;
+  padding-bottom: 32px;
+  padding-left: 32px;
 }
 .pet-img-div {
   display: flex;
+  flex-direction: column-reverse;
   height: 70%;
+  width:300px;
   position: relative;
   border-radius: 30px;
   background-color: #3c4043;
@@ -458,9 +459,8 @@ label {
 
 .catpic {
   height: 100%;
-  width: 100%;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  width: 100%;  
+  
 }
 /* END: ed8c6549bwf9 */
 
@@ -469,14 +469,15 @@ label {
   padding-left: 10%;
   padding-right: 10%;
   justify-content: space-between;
-  height: 600px;
+  height: 700px;
 }
 .chat-convo-cntr {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 30%;
-  color: blueviolet;
   background-color: #f5f8ff;
+  height: 700px;
+  overflow-y: scroll;
 }
 
 .chat-inbox-cntr {
@@ -488,9 +489,11 @@ label {
 }
 .chat-users-cntr {
   display: flex;
-  flex-direction: row;
-  color: #174ea6;
+  flex-direction: column;
   width: 30%;
+  background-color: #f5f8ff;
+  height: 700px;
+  overflow-y: scroll;
 }
 
 .chat-header {
@@ -499,7 +502,15 @@ label {
   display: flex;
   background-color: #f5f8ff;
   color: #229fff;
+  margin-bottom: 20px;
 }
+
+.chathdr{
+  margin-left: 10px;
+
+
+}
+
 .members-header {
   width: 100%;
   height: fit-content;
@@ -511,15 +522,13 @@ label {
 
 .inbox-header {
   width: 100%;
-  height: fit-content;
+  height: 65px;
   display: flex;
   justify-content: center;
+  align-items: center;
   color: #229fff;
   background-color: #f5f8ff;
   border: #1892cb;
-  border-right: 1px solid #229fff;
-  border-left: 1px solid #229fff;
-  border-bottom: 1px solid #229fff;
 }
 
 .messageBox {
@@ -767,12 +776,12 @@ header {
 }
 /*Buttons below*/
 
-.create-grp{
+.create-grp {
   display: flex;
   justify-content: flex-end;
   border-radius: 5px;
   padding: 1rem 0;
-  margin: 1rem 0; 
+  margin: 1rem 0;
 }
 
 .catpic-details {
@@ -784,13 +793,11 @@ header {
   overflow: hidden;
 }
 
-.catdeets{
+.catdeets {
   display: flex;
   flex-direction: column;
   margin-top: auto;
 }
-
-
 
 #hometexts {
   font-weight: 300;
@@ -806,11 +813,10 @@ header {
 }
 
 .unametxtx {
-  color:#b69f43;
-  font-size:x-large;
+  color: #b69f43;
+  font-size: x-large;
   margin-bottom: 0;
 }
-
 
 #quoteds {
   display: flex;
@@ -818,29 +824,28 @@ header {
   padding-top: 10px;
 }
 
-
 /* 
 // 12 - CSS3 Blockquote Effects Demo
 // Made with ❤ by @Pawan_Mall
 // http://www.pawanmall.net 
 */
 
-@import url('https://fonts.googleapis.com/css?family=Montez');
+@import url("https://fonts.googleapis.com/css?family=Montez");
 @import url(https://fonts.googleapis.com/css?family=Francois+One);
 
-body{
+body {
   background: #f5f7fa;
-  margin:10px;
-  padding:10px;  
+  margin: 10px;
+  padding: 10px;
 }
 
-blockquote{
-  display:block;
+blockquote {
+  display: block;
   background: #fff;
   padding: 15px 20px 15px 45px;
   margin: 0 0 20px;
   position: relative;
-  
+
   /*Font*/
   font-family: Georgia, serif;
   font-size: 14px;
@@ -856,31 +861,30 @@ blockquote{
   border-left-style: solid;
   border-left-width: 15px;
   border-right-style: solid;
-  border-right-width: 2px;    
+  border-right-width: 2px;
 }
 
-blockquote::before{
+blockquote::before {
   content: "\201C"; /*Unicode for Left Double Quote*/
-  
+
   /*Font*/
   font-family: Georgia, serif;
   font-size: 60px;
   font-weight: bold;
   color: #999;
-  
+
   /*Positioning*/
   position: absolute;
   left: 10px;
-  top:5px;
-  
+  top: 5px;
 }
 
-blockquote::after{
+blockquote::after {
   /*Reset to make sure*/
   content: "";
 }
 
-blockquote a{
+blockquote a {
   text-decoration: none;
   background: #eee;
   cursor: pointer;
@@ -888,98 +892,95 @@ blockquote a{
   color: #c76c0c;
 }
 
-blockquote a:hover{
- color: #666;
+blockquote a:hover {
+  color: #666;
 }
 
-blockquote em{
+blockquote em {
   font-style: italic;
 }
 
-  /*Default Color Palette*/
-blockquote.default{ 
+/*Default Color Palette*/
+blockquote.default {
   border-left-color: #656d77;
-  border-right-color: #434a53;  
+  border-right-color: #434a53;
 }
 
 /*Grapefruit Color Palette*/
-blockquote.grapefruit{
+blockquote.grapefruit {
   border-left-color: #ed5565;
   border-right-color: #da4453;
 }
 
 /*Bittersweet Color Palette*/
-blockquote.bittersweet{
+blockquote.bittersweet {
   border-left-color: #fc6d58;
   border-right-color: #e95546;
 }
 
 /*Sunflower Color Palette*/
-blockquote.sunflower{
+blockquote.sunflower {
   border-left-color: #ffcd69;
   border-right-color: #f6ba59;
 }
 
 /*Grass Color Palette*/
-blockquote.grass{
+blockquote.grass {
   border-left-color: #9fd477;
   border-right-color: #8bc163;
 }
 
 /*Mint Color Palette*/
-blockquote.mint{
+blockquote.mint {
   border-left-color: #46cfb0;
   border-right-color: #34bc9d;
 }
 
 /*Aqua Color Palette*/
-blockquote.aqua{
+blockquote.aqua {
   border-left-color: #4fc2e5;
   border-right-color: #3bb0d6;
 }
 
 /*Blue Jeans Color Palette*/
-blockquote.bluejeans{
+blockquote.bluejeans {
   border-left-color: #5e9de6;
   border-right-color: #4b8ad6;
 }
 
 /*Lavander Color Palette*/
-.lavander{
+.lavander {
   border-left-color: #ad93e6;
   border-right-color: #977bd5;
 }
 
 /*Pinkrose Color Palette*/
-blockquote.pinkrose{
+blockquote.pinkrose {
   border-left-color: #ed87bd;
   border-right-color: #d870a9;
 }
 
 /*Light Color Palette*/
-blockquote.light{
+blockquote.light {
   border-left-color: #f5f7fa;
   border-right-color: #e6e9ed;
 }
 
 /*Gray Color Palette*/
-blockquote.gray{
+blockquote.gray {
   border-left-color: #ccd1d8;
   border-right-color: #aab2bc;
 }
 
 .modalLeave {
   padding-right: 20px;
-  align-items:center;
+  align-items: center;
 }
-
-
 
 .gname {
   color: red;
 }
 /* These CSS classes used just for Demo purpose */
-
 
 .ih {
   display: flex;
@@ -989,6 +990,157 @@ blockquote.gray{
   gap: 10px;
 }
 
+.chat {
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 16px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  max-height: 520px;
+}
+
+.msg {
+  position: relative;
+  max-width: 75%;
+  padding-bottom: 0px;
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: baseline;
+  
+}
+
+.msg.sent {
+  border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+  background: #42a5f5;
+  color: #fff;
+  /* moves it to the right */
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.msg.rcvd {
+  border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+  background: #f1f1f1;
+  color: #555;
+  /* moves it to the left */
+  margin-right: auto;
+  margin-left: 8px;
+}
+
+/* Improve radius for messages group */
+
+.msg.sent:first-child,
+.msg.rcvd + .msg.sent {
+  border-top-right-radius: var(--rad);
+}
+
+.msg.rcvd:first-child,
+.msg.sent + .msg.rcvd {
+  border-top-left-radius: var(--rad);
+}
+
+/* time */
+
+.msg::before {
+  content: attr(data-time);
+  font-size: 0.8rem;
+  position: absolute;
+  bottom: 100%;
+  color: #888;
+  white-space: nowrap;
+  /* Hidden by default */
+  display: none;
+}
+
+.msg.sent::before {
+  right: 15px;
+}
+
+.msg.rcvd::before {
+  left: 15px;
+}
+
+.chatlistdiv {
+  display: flex;
+  flex-direction: column;
+  height:fit-content;
+  width:100%
+
+}
+
+.singlethread {
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  width: 100%;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.thread-profile {
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: #229fff;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+  justify-content: center;
+  
+}
+
+.info-thread {
+  width:100%;
+  height: 50px;
+  margin-top: 10px;
+  flex-direction: column;
+  padding: 0;
+}
 
 
 
+.gname-spn {
+  font-weight: 600;
+  font-size: large;
+}
+
+.desc-spn{
+  font-size: medium;
+  white-space: nowrap;
+}
+
+.info-thread-disc{
+  overflow-y: hidden;
+  width: 100%;
+  display: flex;
+  margin-bottom: 0; /* added this line */
+}
+
+.info-thread-gname{
+  height: fit-content;
+  margin-bottom: 0; /* added this line */
+}
+
+.chatlink {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.iak {
+  background-color: #5e9de6;
+}
+
+.section2-txt{
+  display: flex;
+  width:100%;
+  justify-content: flex-end;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 20px;
+  margin-bottom: 0%;
+}

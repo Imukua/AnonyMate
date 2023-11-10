@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Threads from "./threads";
+
 
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [sender, setSender] = useState("");
   const [username, setUsername] = useState("");
   const [socket, setSocket] = useState(null);
-
   const [groupDetails, setGroupDetails] = useState([]);
   const groupName = window.location.href.split("/").pop();
   console.log(groupName);
@@ -43,6 +43,7 @@ const Chat = () => {
             );
             const groupData = groupResponse.data;
             setGroupDetails(groupData);
+            console.log(groupData)
           } catch (error) {
             console.error(error);
             // handle error here
@@ -65,11 +66,10 @@ const Chat = () => {
       console.log(e.data);
       //handle incoming message
       const receivedMessage = JSON.parse(e.data);
-      setSender(receivedMessage.sender);
-      console.log(sender);
+      setMessages(prevMessages => [...prevMessages, receivedMessage]);
       console.log(receivedMessage);
-      console.log(receivedMessage.text);
-      setMessages((prevMesssages) => [...prevMesssages, receivedMessage.text]);
+      console.log(receivedMessage.text); 
+      // clear messages list and add received message
     };
 
     newSocket.onclose = () => {
@@ -98,22 +98,35 @@ const Chat = () => {
     <div className="chat-cntr">
       <div className="chat-convo-cntr">
         <div className="chat-header">
-          <h3 className="">chats</h3>
+          <h3 className="chathdr">chats</h3>
         </div>
+        {groupDetails.map((groups) => (
+        <div className="chatlistdiv">
+          <Threads
+          groupname={groups.group_name}
+          groupinfo = {groups.group_description}
+          setMessages = {setMessages}
+          setSocket = {setSocket}
+          ></Threads>
+        </div>
+        ))}
       </div>
       <div className=" chat-inbox-cntr">
         <div className="inbox-header">
           <h3 className="">chats</h3>
         </div>
+        
         <div className="message-box-cntr">
-          <div className="messagehold">
+          <div className="chat">
             {messages.map((msg, index) => (
+              <>
               <div
                 key={index}
-                className={sender === username ? "message" : "message1"}
+                className={msg.sender === username ? "msg sent" : "msg rcvd"}
               >
-                <p className="message-txt">{msg}</p>
+                <p className="message-txt">{msg.text}</p>
               </div>
+              </>
             ))}
           </div>
           <input
@@ -128,11 +141,7 @@ const Chat = () => {
           ></input>
         </div>
       </div>
-      <div className="chat-users-cntr">
-        <div className="members-header">
-          <h3 className="">members</h3>
-        </div>
-      </div>
+      
     </div>
   );
 };

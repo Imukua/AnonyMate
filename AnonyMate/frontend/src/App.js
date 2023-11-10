@@ -7,11 +7,11 @@ import { Signup } from './component/signup';
 import { Navigation } from './component/navigation';
 import Chat from "./component/chat";
 import ProductList from './component/ProductList';
-
+import ResponsiveAppBar from './component/nav'
 function App() {
     return(
         <BrowserRouter>
-        <Navigation></Navigation>
+        <ResponsiveAppBar></ResponsiveAppBar>
         <Routes>
             <Route path="/Home" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
