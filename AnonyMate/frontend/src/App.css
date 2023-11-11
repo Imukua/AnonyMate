@@ -1285,7 +1285,7 @@ blockquote.gray {
 }
 .hero-h1-right {
   width: 400px;
-  padding-top: 40px;
+  padding-top: 10px;
   
 }
 
@@ -1425,4 +1425,8 @@ line-height: 1.66em;
 margin: 0;
 font-family: 'Lato';
 font-size: 24px;
+}
+
+.feelings {
+  color:#0b93f6;
 }

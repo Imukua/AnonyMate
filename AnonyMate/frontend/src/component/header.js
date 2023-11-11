@@ -14,10 +14,10 @@ function Header() {
         </label>
         <ul className="menu">
           <li>
-            <a href="#work">Features</a>
+            <a href="#work">Sign-up</a>
           </li>
           <li>
-            <a href="#about">About</a>
+            <a href="#about">Donate</a>
           </li>
          
           <li>

@@ -21,36 +21,23 @@ const Hero = () => {
           <div className="hero-par">
             <div class="hero-main">
               <h4 className="hero-paragraph">
-                We must understand that <span>sadness</span> is an ocean, and
-                sometimes we
-                <span>drown</span>, while other days we are forced to swim.” ―
-                R.M. Drake
+                Anonymate aims to address the challenge of providing a safe,
+                anonymous, and structured platform for individuals to seek and
+                offer support while dealing with personal challenges, traumas,
+                and addictions. It seeks to foster a sense of community,
+                understanding, and healing among users.
               </h4>
             </div>
             <div class="hero-main-txt hero-txt-2">
-              <h1 className="hero-h1 hero-h1-right">To Feel Sad</h1>
+              <h1 className="hero-h1 hero-h1-right">
+                To <span className="feelings">Feel </span> Sad
+              </h1>
             </div>
           </div>
         </div>
         <div class="ctadiv">
           <div className="cta">
             <button className="button-53">join a group - anonymously</button>
-            <div className="Anony-info">
-            <h2 className="h2t">
-               what you will get
-              </h2>
-              <ul>
-                <li>Anonymous chat</li>
-                <li>Streaks</li>
-                <li>Virtual pets</li>
-                <li>Support groups</li>
-                <li>Real time chat</li>
-                <li>Anonymous registration</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pixdivs">
-            <img alt="group-gif" className="anonyteam" src={`${process.env.PUBLIC_URL}/grouppix.png`}></img>
           </div>
         </div>
       </div>
