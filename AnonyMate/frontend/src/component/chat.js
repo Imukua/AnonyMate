@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import axios from "axios";
 import Threads from "./threads";
 
@@ -7,6 +7,7 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState("");
+  const [mood, setMood] = useState("happy");
   const [socket, setSocket] = useState(null);
   const [groupDetails, setGroupDetails] = useState([]);
   const groupName = window.location.href.split("/").pop();
@@ -31,6 +32,7 @@ const Chat = () => {
               }
             );
             setUsername(data.username);
+            setMood(data.mood);
             console.log(data);
             const groupResponse = await axios.get(
               "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
@@ -83,55 +85,48 @@ const Chat = () => {
     };
   }, []);
 
+  const dummy = useRef();
   const sendMessage = () => {
     if (socket) {
       const data = JSON.stringify({ text: message, sender: username });
       console.log(`Sending message: ${data}`);
       socket.send(data);
       setMessage("");
+      dummy.current.scrollIntoView({behavior:"smooth", block:"end"})
     } else {
       console.log("Cannot send message, socket is not connected");
     }
   };
+  
 
   return (
     <div className="chat-cntr">
-      <div className="chat-convo-cntr">
-        <div className="chat-header">
-          <h3 className="chathdr">chats</h3>
-        </div>
-        {groupDetails.map((groups) => (
-        <div className="chatlistdiv">
-          <Threads
-          groupname={groups.group_name}
-          groupinfo = {groups.group_description}
-          setMessages = {setMessages}
-          setSocket = {setSocket}
-          ></Threads>
-        </div>
-        ))}
-      </div>
+      
       <div className=" chat-inbox-cntr">
-        <div className="inbox-header">
-          <h3 className="">chats</h3>
-        </div>
+        
         
         <div className="message-box-cntr">
           <div className="chat">
             {messages.map((msg, index) => (
               <>
+              
               <div
                 key={index}
                 className={msg.sender === username ? "msg sent" : "msg rcvd"}
               >
+                <p className="msgsender">{msg.sender} - {mood}</p>
                 <p className="message-txt">{msg.text}</p>
               </div>
               </>
+              
             ))}
+            <span ref={dummy} className="spacepan"> </span>
           </div>
+          
           <input
             className="messageBox"
             value={message}
+            placeholder="open up"
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {

@@ -2,6 +2,9 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import { Link } from 'react-router-dom';
 import ParticlesBg from "particles-bg"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const Login = () => {
     const [username, setUsername] = useState('');
@@ -23,7 +26,7 @@ export const Login = () => {
             password: password
 
         };
-
+        try {
         const {data} = await
                         axios.post('http://localhost:8000/token/',
                         user, {headers:
@@ -34,13 +37,42 @@ export const Login = () => {
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
         axios.defaults.headers.common['Authorization'] = `Bearer ${data['access']}`;
-        window.location.href = '/home';
+        toast.success(`Welcome back !`, {
+            position: "top-center",
+            autoClose: 2998,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+        setTimeout(() => {
+            window.location.href = '/home';
+        }, 3000);
+    } catch (error) {
+        toast.error(`Incorrect Username or Password!`, {
+          position: "top-center",
+          autoClose: 4998,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+        console.error(error);
+        setPassword("")
+        setUsername("")
+        // handle error here  
+      }
 
 
     }
 
     return(
         <>
+        <ToastContainer/>
         <div className="Auth-form-container" >
             <form className="Auth-form" onSubmit={submit}>
                 <div className="Auth-form-content">
@@ -77,7 +109,7 @@ export const Login = () => {
                 </div>
             </form>
         </div>
-        <ParticlesBg type="random" bg={true}/>
+        <ParticlesBg  num={200} type="cobweb" bg={true} />
         </>
         
     )

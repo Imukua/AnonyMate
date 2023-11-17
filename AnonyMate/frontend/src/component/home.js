@@ -25,12 +25,21 @@ export const Home = () => {
       img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIACAAIAMBIgACEQEDEQH/xAAYAAADAQEAAAAAAAAAAAAAAAADBAYFAv/EAC0QAAEDAgQEAwkAAAAAAAAAAAECAwQFEQASIWEGMUFREyJxFDJSYpGhwdHh/8QAGAEAAwEBAAAAAAAAAAAAAAAAAQMEAgD/xAAeEQACAQMFAAAAAAAAAAAAAAABAgAREyEDEjJBQv/aAAwDAQACEQMRAD8AsFsbYCuPtjYWztgK2tsa3QFJjqjbYmalw6uRJelPqCE2JUpOtx6bdsWrxabF3XEIHzKAwoZUFRIEyMT28VJ/OOajDMC1U4hKpxNDp8hEd91tLy+aQq+X1On72wm/WWZ1Of8AZaszDlJzJSHmiqx6EEWHbodxfEsvhSqJflyC5HdcdW6prxHFEgLI5nKToAPXlvgNN4PqzGjwp0keGEgLdeTbe4Av/TicWzyNZS13yI/Hg0hyOl6o1JIqK02eU2C4OeoClam/fp0tjmVTqDQKcHXZzknx0qUGn0hXlJ943vl25ddOeAq4RqJOZMano6+SU9f7g4TXwxXpMtblREZacqbFLxUUlObLpkHxK+uGnVToxC6D1ys//9k="
     }
   ];
+  const moodsdict = [
+    { mood: "happy", url: `${process.env.PUBLIC_URL}/happyemji.png` },
+    { mood: "sad", url: `${process.env.PUBLIC_URL}/sademji.png` },
+    { mood: "depressed", url: `${process.env.PUBLIC_URL}/depressedemji.png` },
+    { mood: "suicidal", url: `${process.env.PUBLIC_URL}/suicidalemji.png` },
+    { mood: "empty", url: `${process.env.PUBLIC_URL}/emptyemji.png` }
+  ];
 
   const [streak, setStreak] = useState("");
+  const [uuid, setuuid] = useState(null);
   const [username, setUsername] = useState("");
   const [quotes, setQuotes] = useState([]);
   const [groupDetails, setGroupDetails] = useState([]);
   const [pet, setPet] = useState("cats");
+  const [mood, setMood] =  useState("empty")
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -38,7 +47,6 @@ export const Home = () => {
   }
 
   const rand = getRandomInt(1, 5);
-
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
       window.location.href = "/login";
@@ -59,6 +67,7 @@ export const Home = () => {
             );
             setUsername(data.username);
             setStreak(data.login_streak);
+            setuuid(data.user_id);
             const groupResponse = await axios.get(
               "http://127.0.0.1:8000/api/group/1/members/?user_id=yes",
               {
@@ -81,6 +90,29 @@ export const Home = () => {
       })();
     }
   }, []);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    (async () => {
+      try {
+        const mood1 = mood;
+        const { data } = await axios.put(
+          `http://localhost:8000/user/${uuid}/update`,
+          { mood: mood1 },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${accessToken}`
+            }
+          }  
+        );
+        console.log(data);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, [mood]);
+  
   useEffect(() => {
     // Check if quotes are in localStorage
     const storedQuotes = localStorage.getItem("quotes");
@@ -140,14 +172,40 @@ export const Home = () => {
               <div id="quoteds">
                 <blockquote className="lavander">
                   <p>
-                    Big type, even huge type, can be beautiful and useful. But
-                    poise is usually far&nbsp;more important than size – and
-                    poise consists primarily of emptiness. Typographically,
-                    poise is&nbsp;made of&nbsp;white&nbsp;space.
+                    You are not your illness. You have an individual story to
+                    tell. You have a name, a history, a personality. Staying
+                    yourself is part of the battle.
                   </p>
 
                   <footer>Robert Bringhurst</footer>
                 </blockquote>
+
+                <span className="moodspan">How are you feeling today ?</span>
+
+                <div class="mooddiv">
+                  {moodsdict.map((moodsd, index) => (
+                    <div
+                      className="imgcdiv emji"
+                      key={index}
+                      onClick={() => setMood(moodsd.mood)}
+                    >
+                      <img
+                        alt="moodicon"
+                        style={{
+                          borderRadius: "50%",
+                          height: `${moodsd.mood === mood ? "65px" : "50px"}`,
+                          width: `${moodsd.mood === mood ? "65px" : "50px"}`,
+                          border: `${moodsd.mood === mood ? "8px" : "2px"} solid ${moodsd.mood === mood ? "#ffcc4d" : "#229fff"}`,
+                          boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)"
+                        }}
+                        src={moodsd.url}
+                      />
+                      <span style={{ fontSize: "15px", textAlign: "center" }}>
+                        {moodsd.mood}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
